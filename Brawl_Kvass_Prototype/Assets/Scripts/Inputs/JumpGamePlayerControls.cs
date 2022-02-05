@@ -18,7 +18,11 @@ namespace Inputs
         public void Update()
         {
             var direction = _playerInputs.JumpGameInputs.Movement.ReadValue<Vector2>();
-            Debug.Log(direction);
+            if (direction != Vector2.zero)
+            {
+                _characterTransformable.AddVelocity(direction/15);//CONSTANT MUST BE DELETED
+                Debug.Log(direction);
+            }
         }
 
         public void OnEnable()

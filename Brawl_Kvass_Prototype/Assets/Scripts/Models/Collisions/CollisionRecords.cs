@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Core;
 using Core.Interfaces;
-using UnityEngine;
 
 namespace Models.Collisions
 {
@@ -12,10 +11,12 @@ namespace Models.Collisions
         {
             yield return IfCollided((Platform platform, Character character) =>
             {
-                Debug.Log("Collide");
-                var characterVelocity = character.Velocity;
-                characterVelocity.y = 10f;
-                character.ChangeVelocity(characterVelocity);
+                if((platform.Position - character.Position).y < 0)//CAN BE BUGS(JUST YET NOT OBSERVED)
+                {
+                    var characterVelocity = character.Velocity;
+                    characterVelocity.y = 10f;
+                    character.ChangeVelocity(characterVelocity);
+                }
             });
         }
 

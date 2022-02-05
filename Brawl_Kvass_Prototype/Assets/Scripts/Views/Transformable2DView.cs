@@ -31,9 +31,9 @@ namespace Views
             _rigidbody.velocity = velocity;
         }
 
-        public void SetDirection(Vector2 direction)
+        public void AddVelocity(Vector2 velocity)
         {
-            _rigidbody.velocity = direction;
+            _rigidbody.velocity += velocity;
         }
 
         public IObjectPool Origin { get; set; }
