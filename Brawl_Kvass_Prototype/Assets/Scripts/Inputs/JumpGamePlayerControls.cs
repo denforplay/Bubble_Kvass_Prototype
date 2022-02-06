@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using Configurations;
+using Core.Interfaces;
 using UnityEngine;
 using Views;
 
@@ -6,12 +7,14 @@ namespace Inputs
 {
     public class JumpGamePlayerControls : IInputController
     {
+        private PlayerConfiguration _playerConfiguration;
         private Transformable2DView _characterTransformable;
         private PlayerInputs _playerInputs;
 
-        public JumpGamePlayerControls(Transformable2DView characterTransformable)
+        public JumpGamePlayerControls(Transformable2DView characterTransformable, PlayerConfiguration playerConfiguration)
         {
             _characterTransformable = characterTransformable;
+            _playerConfiguration = playerConfiguration;
             _playerInputs = new PlayerInputs();
         }
 
@@ -20,8 +23,12 @@ namespace Inputs
             var direction = _playerInputs.JumpGameInputs.Movement.ReadValue<Vector2>();
             if (direction != Vector2.zero)
             {
-                _characterTransformable.AddVelocity(direction/15);//CONSTANT MUST BE DELETED
+                _characterTransformable.SetHorizontalVelocity(direction.x * _playerConfiguration.Speed);
                 Debug.Log(direction);
+            }
+            else
+            {
+                _characterTransformable.SetHorizontalVelocity(0);
             }
         }
 

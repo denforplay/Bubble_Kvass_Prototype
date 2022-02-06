@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f36c799498e4b61a1b1b31e0048b005, type: 3}
+  m_Name: CasesConfiguration
+  m_EditorClassIdentifier: 
+  _cases:
+  - {fileID: 11400000, guid: 35889c80d62dd3545a8137ef750bb00a, type: 2}

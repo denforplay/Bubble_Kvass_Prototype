@@ -11,7 +11,7 @@ namespace Models.Collisions
         {
             yield return IfCollided((Platform platform, Character character) =>
             {
-                if((platform.Position - character.Position).y < 0)//CAN BE BUGS(JUST YET NOT OBSERVED)
+                if(character.Velocity.y < 0)
                 {
                     var characterVelocity = character.Velocity;
                     characterVelocity.y = 10f;

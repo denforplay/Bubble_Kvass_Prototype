@@ -10,8 +10,8 @@ namespace Core.Abstracts
 
         public IEnumerable<Entity<T>> Entities => _entities;
 
-        public event Action<Entity<T>> OnStart;
-        public event Action<Entity<T>> OnEnd;
+        public Action<Entity<T>> OnStart;
+        public Action<Entity<T>> OnEnd;
 
         public abstract void Update(float deltaTime);
 
@@ -27,10 +27,10 @@ namespace Core.Abstracts
             OnEnd?.Invoke(entity);
         }
 
-        public void StopAll(T model)
+        public void StopAll()
         {
-            List<Entity<T>> candidats = _entities.Where(entity => entity.GetEntity.Equals(model)).ToList();
-            candidats.ForEach(Stop);
+            var entitiesCopy = new List<Entity<T>>(_entities);
+            entitiesCopy.ForEach(Stop);
         }
     }
 }

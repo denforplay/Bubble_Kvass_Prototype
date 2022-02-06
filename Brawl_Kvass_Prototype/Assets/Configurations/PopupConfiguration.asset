@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _popupPrefabs:
   - {fileID: 6920113676739390063, guid: db3b5d62c3de6374090620972fbdf5d5, type: 3}
+  - {fileID: 1355718502054687688, guid: d4ef3f716ac84ab44aad8f211a606e19, type: 3}
+  - {fileID: 8495850858751319396, guid: e4bb48e87065dd344a261b34001f8e1e, type: 3}
+  - {fileID: 3860116978292369835, guid: abd30cd9e3656ed44a87fe1590f63d41, type: 3}
+  - {fileID: 3940494106750338073, guid: 50b469e377cf3d14e82cd678678c692a, type: 3}
+  - {fileID: 7537322542175962940, guid: 3e2119f09e5af4a47a9fee23d749f626, type: 3}

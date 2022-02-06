@@ -1,17 +1,22 @@
-﻿using Core;
+﻿using System;
+using Core;
 using Core.Interfaces;
 using Core.PopupSystem;
 using Models.Collisions;
 using Models.Systems;
 using UnityEngine;
+using Views;
 using Views.Factories;
 using Views.Popups;
 using Views.Popups.MiniGamesPopups;
+using Random = UnityEngine.Random;
 
 namespace Models.MiniGames
 {
     public class JumpMiniGame : IMiniGame
     {
+        public event Action OnRestart;
+
         private PlatformFactory _platformFactory;
         private PlatformSystem _platformSystem;
         private PlatformSpawner _platformSpawner;
@@ -32,17 +37,43 @@ namespace Models.MiniGames
             _platformSpawner = new PlatformSpawner(_platformSystem, _camera);
         }
 
+
         public void OnStart()
         {
             SpawnCharacter();
             _jumpGamePopup = _popupSystem.SpawnPopup<JumpGamePopup>();
             _jumpGamePopup.Initialize(_collisionController, _character);
-            var screenPosition = new Vector3(Screen.width / 2, 0, 10);
+            _jumpGamePopup.Character.OnBecomeInvisible += () =>
+            {
+                _platformSystem.StopAll();
+                var popup = _popupSystem.SpawnPopup<LosePopup>();
+                popup.OnRestart += Restart;
+            };
+            
+            PlaceGameObjects();
+        }
+
+        private void PlaceGameObjects()
+        {
+            SpawnCharacter();
+            var screenPosition = new Vector3(Screen.width/2, 0, 10);
             var worldPosition = _camera.ScreenToWorldPoint(screenPosition);
             _platformSpawner.Spawn(worldPosition);
-            _platformSpawner.Spawn();
-            _platformSpawner.Spawn();
-            _platformSpawner.Spawn();
+            for (int i = 0; i < 100; i++)
+            {
+                var x = Random.Range(0, Screen.width);
+                screenPosition = new Vector3(x, screenPosition.y + Screen.height / 5, 10);
+                worldPosition = _camera.ScreenToWorldPoint(screenPosition);
+                _platformSpawner.Spawn(worldPosition);
+            }
+        }
+
+        public void Restart()
+        {
+            OnRestart?.Invoke();
+            _popupSystem.DeletePopUp();
+            PlaceGameObjects();
+            _jumpGamePopup.Initialize(_collisionController, _character);
         }
 
         public void OnEnd()
@@ -74,6 +105,15 @@ namespace Models.MiniGames
         private void SpawnPlatform(Entity<Platform> platform)
         {
             var view = _platformFactory.Create(platform);
+            view.OnBecomeInvisible += () => HidePlatform(view, platform);
+        }
+
+        private void HidePlatform(Transformable2DView platformView, Entity<Platform> platformEntity)
+        {
+            if (platformView.transform.position.y < _character.Position.y)
+            {
+                _platformSystem.OnEnd?.Invoke(platformEntity);
+            }
         }
     }
 }

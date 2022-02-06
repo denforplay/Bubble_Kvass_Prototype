@@ -1,4 +1,5 @@
-﻿using Core.Abstracts;
+﻿using System;
+using Core.Abstracts;
 using Core.ObjectPool.Interfaces;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Views
 {
     public class Transformable2DView : MonoBehaviour, IPoolable
     {
+        public event Action OnBecomeInvisible;
+         
         [SerializeField] private Rigidbody2D _rigidbody;
         private Transformable2D _model;
 
@@ -15,6 +18,9 @@ namespace Views
         {
             _model = model;
             _model.OnVelocityChanged += SetVelocity;
+            transform.position = model.Position;
+            if (_rigidbody != null)
+                _rigidbody.velocity = model.Velocity;
         }
 
         private void FixedUpdate()
@@ -31,14 +37,20 @@ namespace Views
             _rigidbody.velocity = velocity;
         }
 
-        public void AddVelocity(Vector2 velocity)
+        public void SetHorizontalVelocity(float velocity)
         {
-            _rigidbody.velocity += velocity;
+            _rigidbody.velocity = new Vector2(velocity, _rigidbody.velocity.y);
         }
 
         public IObjectPool Origin { get; set; }
         public void OnReturningInPool()
         {
+        }
+
+        private void OnBecameInvisible()
+        {
+            Debug.Log("Became invisible");
+            OnBecomeInvisible?.Invoke();
         }
     }
 }

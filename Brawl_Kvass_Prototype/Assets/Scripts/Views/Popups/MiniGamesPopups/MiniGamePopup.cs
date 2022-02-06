@@ -1,4 +1,5 @@
-﻿using Core.Abstracts;
+﻿using System;
+using Core.Abstracts;
 using Core.PopupSystem;
 using Models.Collisions;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Views.Popups.MiniGamesPopups
             _collisionController = collisionController;
             _playingCharacter.Initialize(playingCharacter);
             _characterEvent.Initialize(_collisionController, _playingCharacter.Model);
+            _playingCharacter.transform.parent = null;
         }
     }
 }

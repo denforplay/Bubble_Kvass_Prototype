@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Platform
   - 
   - 
   - 
@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: GameObjects
+    uniqueID: 4244572075
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
