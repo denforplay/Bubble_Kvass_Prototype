@@ -1,6 +1,4 @@
-﻿using Views.Popups.MiniGamesPopups;
-
-namespace Views.Popups
+﻿namespace Views.Popups.MiniGamesPopups
 {
     public class JumpGamePopup : MiniGamePopup
     {

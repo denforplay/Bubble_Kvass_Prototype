@@ -18,7 +18,15 @@ namespace Models.Collisions
         {
             if (collision.collider.TryGetComponent(out CollisionEvent collisionEvent))
             {
-                _collisionController.TryCollide((_model, collisionEvent._model));
+                try
+                {
+                    _collisionController.TryCollide((_model, collisionEvent._model));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
         }
     }

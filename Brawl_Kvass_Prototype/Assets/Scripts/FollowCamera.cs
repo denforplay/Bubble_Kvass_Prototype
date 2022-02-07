@@ -14,9 +14,12 @@ public class FollowCamera : MonoBehaviour
 
     public void Update()
     {
-        if (_target?.position.y > transform.position.y)
+        if (_target != null)
         {
-            transform.position = new Vector3(transform.position.x, _target.position.y, transform.position.z);
+            if (_target.position.y > transform.position.y)
+            {
+                transform.position = new Vector3(transform.position.x, _target.position.y, transform.position.z);
+            }
         }
     }
 

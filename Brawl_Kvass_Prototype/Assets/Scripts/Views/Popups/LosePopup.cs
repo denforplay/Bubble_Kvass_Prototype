@@ -8,7 +8,7 @@ namespace Views.Popups
     public class LosePopup : Popup
     {
         public event Action OnRestart;
-        public event Action OnMainMenu;
+        public event Action OnMainMenuButtonClicked;
         
         [SerializeField] private Button _restartButton;
         [SerializeField] private Button _mainMenuButton;
@@ -16,7 +16,11 @@ namespace Views.Popups
         private void Start()
         {
             _restartButton.onClick.AddListener(() => OnRestart?.Invoke());
-            _mainMenuButton.onClick.AddListener(() => OnMainMenu?.Invoke());
+            _mainMenuButton.onClick.AddListener(() =>
+            {
+                OnClosing();
+                OnMainMenuButtonClicked?.Invoke();
+            });
         }
 
         public override void EnableInput()

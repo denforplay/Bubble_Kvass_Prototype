@@ -37,9 +37,20 @@ namespace Views
             _rigidbody.velocity = velocity;
         }
 
+        public void SetVerticalVelocity(float velocity)
+        {
+            if (_rigidbody != null)
+            {
+                _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, velocity);
+            }
+        }
+        
         public void SetHorizontalVelocity(float velocity)
         {
-            _rigidbody.velocity = new Vector2(velocity, _rigidbody.velocity.y);
+            if (_rigidbody != null)
+            {
+                _rigidbody.velocity = new Vector2(velocity, _rigidbody.velocity.y);
+            }
         }
 
         public IObjectPool Origin { get; set; }
@@ -49,7 +60,6 @@ namespace Views
 
         private void OnBecameInvisible()
         {
-            Debug.Log("Became invisible");
             OnBecomeInvisible?.Invoke();
         }
     }

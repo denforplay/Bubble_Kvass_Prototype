@@ -1265,7 +1265,10 @@ MonoBehaviour:
   _changeBackgroundButton: {fileID: 3860116979786102193}
   _shopButton: {fileID: 3860116978629717755}
   _fighterButton: {fileID: 3860116978665003063}
+  _chooseMinigameButton: {fileID: 3860116979076791077}
+  _playButton: {fileID: 3860116979096842891}
   _background: {fileID: 3860116979009971296}
+  _fighter: {fileID: 3860116977742387786}
 --- !u!1 &3860116978326460483
 GameObject:
   m_ObjectHideFlags: 0

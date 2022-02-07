@@ -22,77 +22,22 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                     ""name"": ""Movement"",
                     ""type"": ""PassThrough"",
                     ""id"": ""64c684c1-1a37-4aee-8b53-15c5035440cc"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""Move"",
-                    ""id"": ""a70bc259-9c02-42d7-b1ac-6703aef76064"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""cfa05e78-201e-429f-a07e-13eece51b0f2"",
+                    ""path"": ""<Accelerometer>/acceleration"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
-                    ""isComposite"": true,
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""6b81efed-049e-42b7-8ef4-ef567ff85abf"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""588c7acb-35da-49ae-bd18-2a9514115037"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""GyroMove"",
-                    ""id"": ""61fea3ab-9e4d-4057-a9de-3c28dba115fa"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""a058e99e-fbcf-4a52-9225-eb157cecb64d"",
-                    ""path"": ""<Gyroscope>/angularVelocity/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""0159fafc-8cf7-4118-8e5e-cbce907495fe"",
-                    ""path"": ""<Gyroscope>/angularVelocity/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -101,7 +46,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
             ""id"": ""eab43029-040e-4f64-92bf-60450576532e"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""4740248c-f0ad-41b1-9a60-729fa6079794"",
                     ""expectedControlType"": ""Button"",
@@ -113,11 +58,11 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""72b3909d-3cad-44de-b232-5468eccb3378"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -131,7 +76,7 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         m_JumpGameInputs_Movement = m_JumpGameInputs.FindAction("Movement", throwIfNotFound: true);
         // RunGameInputs
         m_RunGameInputs = asset.FindActionMap("RunGameInputs", throwIfNotFound: true);
-        m_RunGameInputs_Newaction = m_RunGameInputs.FindAction("New action", throwIfNotFound: true);
+        m_RunGameInputs_Jump = m_RunGameInputs.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -214,12 +159,12 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     // RunGameInputs
     private readonly InputActionMap m_RunGameInputs;
     private IRunGameInputsActions m_RunGameInputsActionsCallbackInterface;
-    private readonly InputAction m_RunGameInputs_Newaction;
+    private readonly InputAction m_RunGameInputs_Jump;
     public struct RunGameInputsActions
     {
         private @PlayerInputs m_Wrapper;
         public RunGameInputsActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_RunGameInputs_Newaction;
+        public InputAction @Jump => m_Wrapper.m_RunGameInputs_Jump;
         public InputActionMap Get() { return m_Wrapper.m_RunGameInputs; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -229,16 +174,16 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_RunGameInputsActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_RunGameInputsActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_RunGameInputsActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_RunGameInputsActionsCallbackInterface.OnNewaction;
+                @Jump.started -= m_Wrapper.m_RunGameInputsActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_RunGameInputsActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_RunGameInputsActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_RunGameInputsActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -249,6 +194,6 @@ public class @PlayerInputs : IInputActionCollection, IDisposable
     }
     public interface IRunGameInputsActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

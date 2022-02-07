@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core;
 using Core.Interfaces;
+using UnityEngine;
 
 namespace Models.Collisions
 {
@@ -17,6 +18,11 @@ namespace Models.Collisions
                     characterVelocity.y = 10f;
                     character.ChangeVelocity(characterVelocity);
                 }
+            });
+            
+            yield return IfCollided((Character character, Barrier barrier) =>
+            {
+                character.OnDestroyed?.Invoke();
             });
         }
 

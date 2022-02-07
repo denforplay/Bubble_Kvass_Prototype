@@ -7,6 +7,7 @@ namespace Core.Interfaces
     {
         public event Action OnRestart;
         void OnStart();
+        void Update();
         void Restart();
         void OnEnd();
         void OnEnable();

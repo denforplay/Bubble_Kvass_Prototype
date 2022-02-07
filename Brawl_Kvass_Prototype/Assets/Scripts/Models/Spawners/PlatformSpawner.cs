@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Models
+namespace Models.Spawners
 {
     public class PlatformSpawner
     {
