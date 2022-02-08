@@ -24,7 +24,7 @@ namespace Core.PopupSystem
         {
             Popup popupPrefab = _popupSystemConfig.PopupPrefabs.Find(a => a.GetType() == type);
             Popup popUp = CreatePopUp(popupPrefab);
-            popUp.Closing += (popUp) => DeletePopUp();
+            popUp.Closing += (popup) => DeletePopUp();
             _popups.Push(popUp);
             popUp.Show();
             return popUp;
