@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a156057ac704b36879ea018c4acc94a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentPointsText: {fileID: 8172465872457567923}
+  _bestPointsText: {fileID: 8172465872671187814}
   _playingCharacter: {fileID: 6314043413455907180}
   _characterEvent: {fileID: 4005621678978249066}
 --- !u!1 &1252916387257216152
@@ -82,8 +84,8 @@ RectTransform:
   m_Children:
   - {fileID: 6314043413455907185}
   - {fileID: 8172465872671187813}
+  - {fileID: 3578115398894480471}
   - {fileID: 8172465872457567922}
-  - {fileID: 1625619555653901900}
   m_Father: {fileID: 1252916385815812474}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -160,7 +162,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1252916387257216153}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -222,7 +224,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 71.45
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -461,11 +463,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: Road
       objectReference: {fileID: 0}
+    - target: {fileID: 7529963149339040951, guid: 567036782af139d4fac61b810d2d4ea7, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529963149339040951, guid: 567036782af139d4fac61b810d2d4ea7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4779.456
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529963149339040951, guid: 567036782af139d4fac61b810d2d4ea7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 325.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529963149339040951, guid: 567036782af139d4fac61b810d2d4ea7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3792.14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 567036782af139d4fac61b810d2d4ea7, type: 3}
---- !u!4 &1625619555653901900 stripped
+--- !u!4 &3578115398894480471 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5717483789848587948, guid: 567036782af139d4fac61b810d2d4ea7, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7529963149339040951, guid: 567036782af139d4fac61b810d2d4ea7, type: 3}
   m_PrefabInstance: {fileID: 6473864444934320352}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8172465872398721380
@@ -475,6 +493,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1252916387257216153}
     m_Modifications:
+    - target: {fileID: 2807311988835420169, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+      propertyPath: m_Size.x
+      value: 4.21265
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807311988835420169, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+      propertyPath: m_Size.y
+      value: 7.2232504
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807311988835420169, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807311988835420169, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.19850445
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807311988835420169, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 4.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807311988835420169, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 7.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807311988835420170, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8495c503e4b20e44e81397f230086e11, type: 3}
     - target: {fileID: 2807311988835420180, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
       propertyPath: m_Name
       value: testCharacter

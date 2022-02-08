@@ -4,17 +4,19 @@ namespace Inputs
 {
     public class RunGameBarrierController
     {
-        public Transformable2DView _view;
+        private float _velocity;
+        private Transformable2DView _view;
 
-        public RunGameBarrierController(Transformable2DView view)
+        public RunGameBarrierController(Transformable2DView view, float velocity)
         {
+            _velocity = velocity;
             _view = view;
         }
 
-        public void Update(float velocity)
+        public void Update()
         {
             if (_view != null)
-                _view.SetHorizontalVelocity(velocity);
+                _view.SetHorizontalVelocity(_velocity);
         }
     }
 }

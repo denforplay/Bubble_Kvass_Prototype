@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -261,6 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
@@ -853,6 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707396a572f148a7af53bacdd1ca4a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _runGameConfiguration: {fileID: 11400000, guid: 34125cd35dc7e0e43918305bdc971ae9, type: 2}
   _inputsConfiguration: {fileID: 11400000, guid: 588fe199ab200c74cba527a0d9ba025b, type: 2}
   _playerConfiguration: {fileID: 11400000, guid: d481ec5b08cc0b7429e5215a5c15c2a8, type: 2}
   _followCamera: {fileID: 963194229}
@@ -1004,10 +1006,6 @@ PrefabInstance:
     - target: {fileID: 1252916385815812474, guid: 6492d031a2e353544b029c4ec9bc0885, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8172465872457567922, guid: 6492d031a2e353544b029c4ec9bc0885, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -139.2002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6492d031a2e353544b029c4ec9bc0885, type: 3}

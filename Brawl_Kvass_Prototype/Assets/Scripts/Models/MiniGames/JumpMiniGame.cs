@@ -107,7 +107,6 @@ namespace Models.MiniGames
             var rememberedCameraPosition = _camera.transform.position;
             _camera.transform.position = new Vector3(rememberedCameraPosition.x, 0, rememberedCameraPosition.z);
             var worldPosition = _camera.ScreenToWorldPoint(_lastPlatformPosition);
-            Debug.Log(worldPosition);
             _camera.transform.position = rememberedCameraPosition;
             _platformSpawner.Spawn(worldPosition);
         }

@@ -11,7 +11,8 @@
                     "id": "64c684c1-1a37-4aee-8b53-15c5035440cc",
                     "expectedControlType": "Vector3",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -38,7 +39,8 @@
                     "id": "4740248c-f0ad-41b1-9a60-729fa6079794",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -47,6 +49,17 @@
                     "id": "72b3909d-3cad-44de-b232-5468eccb3378",
                     "path": "<Keyboard>/space",
                     "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "72354e89-49f8-47c5-a42e-52168fa4241a",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",

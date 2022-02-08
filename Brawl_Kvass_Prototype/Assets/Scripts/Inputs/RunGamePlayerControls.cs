@@ -1,5 +1,7 @@
 ﻿using Core.Interfaces;
+using UnityEngine;
 using Views;
+using Zenject;
 
 namespace Inputs
 {
@@ -9,21 +11,30 @@ namespace Inputs
         private PlayerInputs _playerInputs;
 
         private bool IsInJumping;
+        private bool IsInDoubleJumping;
         
         public RunGamePlayerControls(Transformable2DView characterTransformable)
         {
             _characterTransformable = characterTransformable;
             _playerInputs = new PlayerInputs();
-            _playerInputs.RunGameInputs.Jump.performed += _ =>
+            _playerInputs.RunGameInputs.Jump.started += _ =>
             {
                 if (!IsInJumping)
                     _characterTransformable.SetVerticalVelocity(10);
+                else if (!IsInDoubleJumping)
+                {
+                    _characterTransformable.SetVerticalVelocity(10);
+                    IsInDoubleJumping = true;
+                }
             };
         }
 
         public void Update()
         {
+            Debug.Log(_playerInputs.RunGameInputs.Jump.triggered);
             IsInJumping = _characterTransformable.Model.Velocity.y != 0;
+            if (_characterTransformable.Model.Velocity.y == 0)
+                IsInDoubleJumping = false;
         }
 
         public void OnEnable()

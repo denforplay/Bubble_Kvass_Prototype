@@ -16,6 +16,7 @@ namespace CompositeRoots
 {
     public class MiniGamesCompositeRoot : CompositeRoot
     {
+        [SerializeField] private RunGameConfiguration _runGameConfiguration;
         [SerializeField] private InputsConfiguration _inputsConfiguration;
         [SerializeField] private PlayerConfiguration _playerConfiguration;
         [SerializeField] private FollowCamera _followCamera;
@@ -79,7 +80,7 @@ namespace CompositeRoots
 
         private void StartRunningGame()
         {
-            _currentGame = new RunMiniGame(_barrierFactory, _popupSystem, _collisionController, _camera);
+            _currentGame = new RunMiniGame(_barrierFactory, _popupSystem, _collisionController, _camera, _runGameConfiguration);
             _currentGame.OnEnable();
             _currentGame.OnStart();
             _inputController = new RunGamePlayerControls(_currentGame.GetPopup().Character);
