@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Configurations;
-using Configurations.Info;
 using Core;
 using Core.Interfaces;
 using Core.PopupSystem;
@@ -34,8 +33,10 @@ namespace Models.MiniGames
         private readonly Dictionary<Transformable2DView, Action> _viewsActions = new Dictionary<Transformable2DView, Action>();
         private bool _isGameRun;
         private readonly Vector3 _barrierScreenSpawnPosition;
-        
         public event Action OnRestart;
+        
+        public MiniGamePopup GetPopup() => _runGamePopup;
+        
         
         public RunMiniGame(BarrierFactory factory, PopupSystem popupSystem, CollisionController collisionController, Camera camera, RunGameConfiguration configuration)
         {
@@ -65,24 +66,23 @@ namespace Models.MiniGames
         {
             _controllers.ForEach(c => c.Update());
         }
-
+        
         public void Restart()
         {
-            _isGameRun = true;
+            _isGameRun = false;
             OnRestart?.Invoke();
-            _popupSystem.DeletePopUp();
+            ClearViewActions();
+            _barrierSystem.StopAll();
+            _scoreSystem.Restart();
             PlaceGameObjects();
             _runGamePopup.Initialize(_collisionController, _character);
+            _isGameRun = true;
         }
 
         private void OnLost()
         {
             _isGameRun = false;
-            foreach (var viewAction in _viewsActions)
-            {
-                viewAction.Key.OnBecomeInvisible -= viewAction.Value;
-            }
-            _viewsActions.Clear();
+            ClearViewActions();
             _scoreSystem.SaveBestScore();
             _scoreSystem.Restart();
             _barrierSystem.StopAll();
@@ -93,10 +93,11 @@ namespace Models.MiniGames
         
         public void OnEnd()
         {
-            _popupSystem.DeletePopUp();
-            OnDisable();
+            ClearViewActions();
             _barrierSystem.StopAll();
             _scoreSystem.SaveBestScore();
+            OnDisable();
+            _popupSystem.DeletePopUp();
         }
 
         public void OnEnable()
@@ -177,10 +178,14 @@ namespace Models.MiniGames
                 _barrierSystem.OnEnd?.Invoke(barrierEntity);
             }
         }
-        
-        public MiniGamePopup GetPopup()
+
+        private void ClearViewActions()
         {
-            return _runGamePopup;
+            foreach (var viewAction in _viewsActions)
+            {
+                viewAction.Key.OnBecomeInvisible -= viewAction.Value;
+            }
+            _viewsActions.Clear();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Configurations;
+using Configurations.Info;
 using Core.PopupSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ namespace Views.Popups
 {
     public class ChangeBackgroundPopup : Popup
     {
-        public event Action<Sprite> OnBackgroundChanged;
+        public event Action<BackgroundInfo> OnBackgroundChanged;
         [SerializeField] private Image _background;
         [SerializeField] private TextButton _backgroundButtonPrefab;
         [SerializeField] private MainMenuBackgroundConfiguration _backgroundsConfiguration;
@@ -25,7 +26,7 @@ namespace Views.Popups
                 button.Button.image.sprite = background.Sprite;
                 if (background.Cost == 0)
                 {
-                    button.Button.onClick.AddListener(() => SetBackground(background.Sprite));
+                    button.Button.onClick.AddListener(() => SetBackground(background));
                 }
                 else
                 {
@@ -39,9 +40,9 @@ namespace Views.Popups
             _background.sprite = backgroundSprite;
         }
 
-        private void SetBackground(Sprite sprite)
+        private void SetBackground(BackgroundInfo background)
         {
-            OnBackgroundChanged?.Invoke(sprite);
+            OnBackgroundChanged?.Invoke(background);
             OnClosing();
         }
         

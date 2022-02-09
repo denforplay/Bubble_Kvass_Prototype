@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Configurations.Info
 {
     [CreateAssetMenu(menuName = "Configurations/Mini game info", order = 0)]
-    public class MinigameInfo : ScriptableObject
+    public class MiniGameInfo : ScriptableObject
     {
         [SerializeField] private string _miniGameName;
         [SerializeField] private Sprite _miniGameMiniIcon;

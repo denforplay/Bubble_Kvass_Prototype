@@ -30,6 +30,8 @@ namespace Models.MiniGames
         private Vector2 _lastPlatformPosition;
         private readonly ScoreSystem _scoreSystem;
         private readonly Dictionary<Transformable2DView, Action> _viewsActions;
+        private bool _isGameRunning;
+        
         public MiniGamePopup GetPopup() => _jumpGamePopup;
         public JumpMiniGame(PlatformFactory factory, PopupSystem popupSystem, CollisionController collisionController, Camera camera)
         {
@@ -50,8 +52,13 @@ namespace Models.MiniGames
             _scoreSystem.OnScoreChanged += _jumpGamePopup.SetPoints;
             _scoreSystem.OnBestScoreChanged += _jumpGamePopup.SetBestPoints;
             _scoreSystem.Restart();
-            _jumpGamePopup.Character.OnBecomeInvisible += OnLost;
+            _jumpGamePopup.Character.OnBecomeInvisible += () =>
+            {
+                if (_isGameRunning)
+                    OnLost();
+            };
             PlaceGameObjects();
+            _isGameRunning = true;
         }
 
        
@@ -73,6 +80,7 @@ namespace Models.MiniGames
         
         private void OnLost()
         {
+            _isGameRunning = false;
             foreach (var viewAction in _viewsActions)
             {
                 viewAction.Key.OnBecomeInvisible -= viewAction.Value;
@@ -113,18 +121,24 @@ namespace Models.MiniGames
 
         public void Restart()
         {
+            _isGameRunning = false;
             OnRestart?.Invoke();
-            _popupSystem.DeletePopUp();
+            ClearViewActions();
+            _platformSystem.StopAll();
+            _scoreSystem.Restart();
             PlaceGameObjects();
             _jumpGamePopup.Initialize(_collisionController, _character);
+            _isGameRunning = true;
         }
 
         public void OnEnd()
         {
-            _popupSystem.DeletePopUp();
-            OnDisable();
+            _isGameRunning = false;
+            ClearViewActions();
             _platformSystem.StopAll();
             _scoreSystem.SaveBestScore();
+            OnDisable();
+            _popupSystem.DeletePopUp();
         }
 
         private void SpawnCharacter()
@@ -157,6 +171,15 @@ namespace Models.MiniGames
                 _viewsActions.Remove(platformView);
                 platformView.OnBecomeInvisible -= SpawnOnePlatform;
             }
+        }
+        
+        private void ClearViewActions()
+        {
+            foreach (var viewAction in _viewsActions)
+            {
+                viewAction.Key.OnBecomeInvisible -= viewAction.Value;
+            }
+            _viewsActions.Clear();
         }
     }
 }

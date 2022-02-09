@@ -6,10 +6,12 @@ using Core.Enums;
 using Core.Interfaces;
 using Core.PopupSystem;
 using Inputs;
+using Models;
 using Models.Collisions;
 using Models.MiniGames;
 using UnityEngine;
 using Views.Factories;
+using Views.Popups;
 using Zenject;
 
 namespace CompositeRoots
@@ -28,10 +30,12 @@ namespace CompositeRoots
         private CollisionController _collisionController;
         private IMiniGame _currentGame;
         private IInputController _inputController;
+        private PlayerData _playerData;
         
         [Inject]
-        public void Initialize(PopupSystem popupSystem)
+        public void Initialize(PopupSystem popupSystem, PlayerData playerData)
         {
+            _playerData = playerData;
             _popupSystem = popupSystem;
         }
 
@@ -48,7 +52,7 @@ namespace CompositeRoots
             _barrierFactory.Initialize(_collisionController);
         }
 
-        public void StartGame(MinigameInfo gameInfo)
+        public void StartGame(MiniGameInfo gameInfo)
         {
             switch (gameInfo.GameType)
             {
@@ -65,6 +69,14 @@ namespace CompositeRoots
                 default:
                     throw new NotImplementedException();
             }
+
+            _currentGame.GetPopup().OnPauseClicked += () =>
+            {
+                var gamePausePopup = _popupSystem.SpawnPopup<GamePausePopup>();
+                gamePausePopup.OnRestartClicked += _currentGame.Restart;
+                gamePausePopup.OnMainMenuClicked += _currentGame.OnEnd;
+            };
+            _currentGame.GetPopup().SetCharacterSprite(_playerData.CurrentFighter.FighterSprite);
         }
 
         private void StartJumpingGame()

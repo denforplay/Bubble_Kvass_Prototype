@@ -7,8 +7,8 @@ namespace Configurations
     [CreateAssetMenu(menuName = "Configurations/Mini games configuration", order = 0)]
     public class MiniGamesConfiguration : ScriptableObject
     {
-        [SerializeField] private List<MinigameInfo> _miniGamesInfos;
+        [SerializeField] private List<MiniGameInfo> _miniGamesInfos;
 
-        public List<MinigameInfo> MiniGamesInfos => _miniGamesInfos;
+        public List<MiniGameInfo> MiniGamesInfos => _miniGamesInfos;
     }
 }

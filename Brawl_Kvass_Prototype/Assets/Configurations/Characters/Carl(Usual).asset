@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8236b7d19f254ec6b3f0e93bbc91ffe0, type: 3}
   m_Name: Carl(Usual)
   m_EditorClassIdentifier: 
+  _id: 0
   _fighterSprite: {fileID: 21300000, guid: 7e5ba27b923e7594d9abcbfcacaf3f26, type: 3}
   _fighterName: Carl
   _rarity: 0
+  _fighterDescription: Usual character with name Carl

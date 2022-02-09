@@ -1,6 +1,8 @@
-﻿using Configurations.Info;
+﻿using System;
+using Configurations.Info;
 using Core.Abstracts;
 using Core.PopupSystem;
+using Models;
 using UnityEngine;
 using Views.Popups;
 using Zenject;
@@ -12,14 +14,18 @@ namespace CompositeRoots
         [SerializeField] private MiniGamesCompositeRoot _miniGamesRoot;
         private PopupSystem _popupSystem;
         private MainMenuPopup _mainMenuPopup;
-        private Sprite _currentBackground;
-        private Sprite _currentFighter;
-        private MinigameInfo _gameInfo;
+        private MiniGameInfo _gameInfo;
+        private PlayerData _playerData;
 
         [Inject]
-        public void Initialize(PopupSystem popupSystem)
+        public void Initialize(PopupSystem popupSystem, PlayerData playerData)
         {
+            _playerData = playerData;
             _popupSystem = popupSystem;
+        }
+
+        private void Start()
+        {
         }
 
         public override void Compose()
@@ -28,65 +34,60 @@ namespace CompositeRoots
             _mainMenuPopup.OnChangeBackgroundClicked += CallChangeBackgroundPopup;
             _mainMenuPopup.OnShopClicked += CallShopPopup;
             _mainMenuPopup.OnFightersClicked += CallFightersPopup;
-            _mainMenuPopup.OnChooseMinigameButtonClicked += CallChooseMinigamePopup;
+            _mainMenuPopup.OnChooseMinigameButtonClicked += CallChooseMiniGamePopup;
             _mainMenuPopup.OnPlayButtonClicked += () => _miniGamesRoot.StartGame(_gameInfo);
+            _playerData.OnBackgroundChanged += info => _mainMenuPopup.SetBackground(info.Sprite);
+            _playerData.OnFighterChanged += info => _mainMenuPopup.SetFighter(info.FighterSprite);
+            _playerData.Refresh();
+        }
+
+        private void OnDisable()
+        {
+            _playerData.SaveData();
         }
 
         private void CallChangeBackgroundPopup()
         {
             var backgroundPopup = _popupSystem.SpawnPopup<ChangeBackgroundPopup>();
-            backgroundPopup.Initialize(_currentBackground);
-            
-            backgroundPopup.OnBackgroundChanged += _mainMenuPopup.SetBackground;
-            backgroundPopup.OnBackgroundChanged += SetCurrentBackground;
+            backgroundPopup.Initialize(_playerData.CurrentBackground.Sprite);
+            backgroundPopup.OnBackgroundChanged += _playerData.SetBackground;
         }
 
         private void CallShopPopup()
         {
             var shopPopup = _popupSystem.SpawnPopup<ShopPopup>();
-            shopPopup.Initialize(_currentBackground);
+            shopPopup.Initialize(_playerData.CurrentBackground.Sprite);
         }
 
         private void CallFightersPopup()
         {
             var fightersPopup = _popupSystem.SpawnPopup<FighterPopup>();
-            fightersPopup.Initialize(_currentBackground);
+            fightersPopup.Initialize(_playerData.CurrentBackground.Sprite);
             fightersPopup.OnFighterClicked += CallFighterDescriptionPopup;
         }
 
         private void CallFighterDescriptionPopup(FighterInfo fighterInfo)
         {
             var fighterDescriptionPopup = _popupSystem.SpawnPopup<FighterDescriptionPopup>();
-            fighterDescriptionPopup.Initialize(fighterInfo, _currentBackground);
+            fighterDescriptionPopup.Initialize(fighterInfo, _playerData.CurrentBackground.Sprite);
             fighterDescriptionPopup.OnChooseFighter += info =>
             {
-                SetCurrentFighter(info);
+                _playerData.SetFighter(info);
                 _popupSystem.DeletePopUp();//Fighter description popup
                 _popupSystem.DeletePopUp();//List of fighters popup
             };
         }
 
-        private void CallChooseMinigamePopup()
+        private void CallChooseMiniGamePopup()
         {
-            var minigamesChoosePopup = _popupSystem.SpawnPopup<MinigamesChoosePopup>();
-            minigamesChoosePopup.Initialize(_currentBackground);
-            minigamesChoosePopup.OnMiniGameClicked += SetMiniGame;
+            var miniGamesChoosePopup = _popupSystem.SpawnPopup<MinigamesChoosePopup>();
+            miniGamesChoosePopup.Initialize(_playerData.CurrentBackground.Sprite);
+            miniGamesChoosePopup.OnMiniGameClicked += SetMiniGame;
         }
 
-        private void SetMiniGame(MinigameInfo gameInfo)
+        private void SetMiniGame(MiniGameInfo gameInfo)
         {
             _gameInfo = gameInfo;
-        }
-
-        private void SetCurrentBackground(Sprite backgroundSprite)
-        {
-            _currentBackground = backgroundSprite;
-        }
-
-        private void SetCurrentFighter(FighterInfo fighterInfo)
-        {
-            _currentFighter = fighterInfo.FighterSprite;
-            _mainMenuPopup.SetFighter(_currentFighter);
         }
     }
 }
