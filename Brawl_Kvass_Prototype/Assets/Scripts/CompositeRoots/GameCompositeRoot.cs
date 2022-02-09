@@ -1,4 +1,5 @@
 ﻿using System;
+using AppodealAds.Unity.Api;
 using Configurations.Info;
 using Core.Abstracts;
 using Core.PopupSystem;
@@ -26,6 +27,7 @@ namespace CompositeRoots
 
         private void Start()
         {
+            Appodeal.initialize("c800638c1b621bca247e7b942efb15dedc5e565ac02e1a01", Appodeal.INTERSTITIAL, true);
         }
 
         public override void Compose()
@@ -39,6 +41,7 @@ namespace CompositeRoots
             _playerData.OnBackgroundChanged += info => _mainMenuPopup.SetBackground(info.Sprite);
             _playerData.OnFighterChanged += info => _mainMenuPopup.SetFighter(info.FighterSprite);
             _playerData.Refresh();
+            Appodeal.show(Appodeal.INTERSTITIAL);
         }
 
         private void OnDisable()
@@ -55,6 +58,7 @@ namespace CompositeRoots
 
         private void CallShopPopup()
         {
+            Appodeal.show(Appodeal.INTERSTITIAL);
             var shopPopup = _popupSystem.SpawnPopup<ShopPopup>();
             shopPopup.Initialize(_playerData.CurrentBackground.Sprite);
         }
