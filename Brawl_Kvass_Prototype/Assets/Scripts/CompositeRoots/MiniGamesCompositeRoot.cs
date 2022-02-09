@@ -72,7 +72,7 @@ namespace CompositeRoots
 
             _currentGame.GetPopup().OnPauseClicked += () =>
             {
-                var gamePausePopup = _popupSystem.SpawnPopup<GamePausePopup>();
+                var gamePausePopup = _popupSystem.SpawnPopup<GamePausePopup>(1);
                 gamePausePopup.OnRestartClicked += _currentGame.Restart;
                 gamePausePopup.OnMainMenuClicked += _currentGame.OnEnd;
             };

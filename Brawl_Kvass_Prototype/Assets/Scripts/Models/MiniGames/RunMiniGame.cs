@@ -86,7 +86,7 @@ namespace Models.MiniGames
             _scoreSystem.SaveBestScore();
             _scoreSystem.Restart();
             _barrierSystem.StopAll();
-            var popup = _popupSystem.SpawnPopup<LosePopup>();
+            var popup = _popupSystem.SpawnPopup<LosePopup>(1);
             popup.OnRestart += Restart;
             popup.OnMainMenuButtonClicked += OnEnd;
         }

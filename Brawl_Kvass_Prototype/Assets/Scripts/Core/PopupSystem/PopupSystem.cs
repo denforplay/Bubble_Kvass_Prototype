@@ -7,7 +7,7 @@ namespace Core.PopupSystem
 {
     public class PopupSystem : MonoBehaviour
     {
-        [SerializeField] private Canvas _canvas;
+        [SerializeField] private List<Canvas> _canvases;
         [SerializeField] private Popup _startPopup;
         private readonly Stack<Popup> _popups = new Stack<Popup>();
         [SerializeField] private PopupSystemConfig _popupSystemConfig;
@@ -20,24 +20,25 @@ namespace Core.PopupSystem
             }
         }
 
-        public Popup SpawnPopup(Type type)
+        public Popup SpawnPopup(Type type, int layer = 0)
         {
             Popup popupPrefab = _popupSystemConfig.PopupPrefabs.Find(a => a.GetType() == type);
-            Popup popUp = CreatePopUp(popupPrefab);
+            Popup popUp = CreatePopUp(popupPrefab, layer);
             popUp.Closing += (popup) => DeletePopUp();
             _popups.Push(popUp);
             popUp.Show();
             return popUp;
         }
 
-        public T SpawnPopup<T>() where T : Popup
+        public T SpawnPopup<T>(int layer = 0) where T : Popup
         {
-            return SpawnPopup(typeof(T)) as T;
+            return SpawnPopup(typeof(T), layer) as T;
         }
 
-        private Popup CreatePopUp(Popup popupPrefab)
+        private Popup CreatePopUp(Popup popupPrefab, int layer = 0)
         {
-            Popup popUp = Instantiate(popupPrefab, _canvas.transform);
+            var canvas = _canvases.Find(x => x.sortingOrder == layer);
+            Popup popUp = Instantiate(popupPrefab, canvas.transform);
             return popUp;
         }
 
