@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AppodealAds.Unity.Api;
 using Configurations;
 using Configurations.Info;

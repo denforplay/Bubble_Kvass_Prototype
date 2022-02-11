@@ -7,7 +7,6 @@ using Core.Interfaces;
 using Core.PopupSystem;
 using Inputs;
 using Models;
-using Models.Collisions;
 using Models.MiniGames;
 using UnityEngine;
 using Views.Factories;
@@ -24,11 +23,9 @@ namespace CompositeRoots
         [SerializeField] private PlayerConfiguration _playerConfiguration;
         [SerializeField] private FollowCamera _followCamera;
         [SerializeField] private Camera _camera;
-        [SerializeField] private CollisionsCompositeRoot _collisionsRoot;
         [SerializeField] private PlatformFactory _platformFactory;
         [SerializeField] private BarrierFactory _barrierFactory;
         private PopupSystem _popupSystem;
-        private CollisionController _collisionController;
         private IMiniGame _currentGame;
         private IInputController _inputController;
         private PlayerData _playerData;
@@ -48,9 +45,6 @@ namespace CompositeRoots
 
         public override void Compose()
         {
-            _collisionController = _collisionsRoot.Controller;
-            _platformFactory.Initialize(_collisionController);
-            _barrierFactory.Initialize(_collisionController);
         }
 
         public void StartGame(MiniGameInfo gameInfo)
@@ -88,7 +82,7 @@ namespace CompositeRoots
 
         private void StartJumpingGame()
         {
-            _currentGame = new JumpMiniGame(_platformFactory, _popupSystem, _collisionController, _camera, _jumpGameConfiguration);
+            _currentGame = new JumpMiniGame(_platformFactory, _popupSystem, _camera, _jumpGameConfiguration);
             _currentGame.OnEnable();
             _currentGame.OnStart();
             _inputController = new JumpGamePlayerControls(_currentGame.GetPopup().Character, _playerConfiguration, _inputsConfiguration);
@@ -99,7 +93,7 @@ namespace CompositeRoots
 
         private void StartRunningGame()
         {
-            _currentGame = new RunMiniGame(_barrierFactory, _popupSystem, _collisionController, _camera, _runGameConfiguration);
+            _currentGame = new RunMiniGame(_barrierFactory, _popupSystem, _camera, _runGameConfiguration);
             _currentGame.OnEnable();
             _currentGame.OnStart();
             _inputController = new RunGamePlayerControls(_currentGame.GetPopup().Character, _inputsConfiguration);

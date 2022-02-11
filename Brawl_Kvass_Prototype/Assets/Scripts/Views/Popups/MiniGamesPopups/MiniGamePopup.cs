@@ -1,7 +1,6 @@
 ﻿using System;
 using Core.Abstracts;
 using Core.PopupSystem;
-using Models.Collisions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,11 +15,9 @@ namespace Views.Popups.MiniGamesPopups
         [SerializeField] private TextMeshProUGUI _currentPointsText;
         [SerializeField] private TextMeshProUGUI _bestPointsText;
         [SerializeField] private Transformable2DView _playingCharacter;
-        [SerializeField] private CollisionEvent _characterEvent;
         [SerializeField] private SpriteRenderer _characterSprite;
         [SerializeField] private TextMeshProUGUI _coinsText;
         [SerializeField] private TextMeshProUGUI _gemsText;
-        private CollisionController _collisionController;
 
         public Transformable2DView Character => _playingCharacter;
 
@@ -29,11 +26,9 @@ namespace Views.Popups.MiniGamesPopups
             _pauseButton.onClick.AddListener(() => OnPauseClicked?.Invoke());
         }
 
-        public MiniGamePopup Initialize(CollisionController collisionController, Transformable2D playingCharacter)
+        public MiniGamePopup Initialize(Transformable2D playingCharacter)
         {
-            _collisionController = collisionController;
             _playingCharacter.Initialize(playingCharacter);
-            _characterEvent.Initialize(_collisionController, _playingCharacter.Model);
             _playingCharacter.transform.parent = null;
             return this;
         }

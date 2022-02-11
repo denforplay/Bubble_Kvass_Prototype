@@ -5,7 +5,6 @@ using Core;
 using Core.Interfaces;
 using Core.PopupSystem;
 using Inputs;
-using Models.Collisions;
 using Models.Spawners;
 using Models.Systems;
 using UnityEngine;
@@ -23,7 +22,6 @@ namespace Models.MiniGames
         private readonly BarrierFactory _barrierFactory;
         private readonly BarrierSystem _barrierSystem;
         private readonly BarrierSpawner _barrierSpawner;
-        private readonly CollisionController _collisionController;
         private readonly PopupSystem _popupSystem;
         private readonly Camera _camera;
         private Character _character;
@@ -40,11 +38,10 @@ namespace Models.MiniGames
         
         public MiniGamePopup GetPopup() => _runGamePopup;
         
-        public RunMiniGame(BarrierFactory factory, PopupSystem popupSystem, CollisionController collisionController, Camera camera, RunGameConfiguration configuration)
+        public RunMiniGame(BarrierFactory factory, PopupSystem popupSystem, Camera camera, RunGameConfiguration configuration)
         {
             _barrierFactory = factory;
             _popupSystem = popupSystem;
-            _collisionController = collisionController;
             _camera = camera;
             _configuration = configuration;
             _barrierSystem = new BarrierSystem();
@@ -58,7 +55,7 @@ namespace Models.MiniGames
         {
             SpawnCharacter();
             _runGamePopup = _popupSystem.SpawnPopup<RunGamePopup>();
-            _runGamePopup.Initialize(_collisionController, _character);
+            _runGamePopup.Initialize(_character);
             _scoreSystem.OnScoreChanged += _runGamePopup.SetPoints;
             _scoreSystem.OnBestScoreChanged += _runGamePopup.SetBestPoints;
             _scoreSystem.Restart();
@@ -81,7 +78,7 @@ namespace Models.MiniGames
             _scoreSystem.Restart();
             _moneySystem.Restart();
             PlaceGameObjects();
-            _runGamePopup.Initialize(_collisionController, _character);
+            _runGamePopup.Initialize(_character);
             _isGameRun = true;
         }
 

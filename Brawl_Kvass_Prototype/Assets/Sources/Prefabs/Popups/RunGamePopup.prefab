@@ -664,8 +664,7 @@ MonoBehaviour:
   _pauseButton: {fileID: 570906333}
   _currentPointsText: {fileID: 8172465872457567923}
   _bestPointsText: {fileID: 8172465872671187814}
-  _playingCharacter: {fileID: 6314043413455907180}
-  _characterEvent: {fileID: 4005621678978249066}
+  _playingCharacter: {fileID: 5845828562912186151}
   _characterSprite: {fileID: 6314043413455907182}
   _coinsText: {fileID: 951699128}
   _gemsText: {fileID: 1081719882}
@@ -1259,26 +1258,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2807311988835420169, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
---- !u!114 &4005621678978249066 stripped
+--- !u!114 &5845828562912186151 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5115172014600884238, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2326918944992177731, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
   m_PrefabInstance: {fileID: 8172465872398721380}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6314043413455907184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54a9ae1bbe854b4f9b78dc2c8698ff54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6314043413455907180 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2807311988835420168, guid: 4386e90f9a98616439ab5bd3b53d0c11, type: 3}
-  m_PrefabInstance: {fileID: 8172465872398721380}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6314043413455907184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bd4927dd5134add8e1da07009423ea2, type: 3}
+  m_Script: {fileID: 11500000, guid: 056db07a44a840de9c50c9f539b000b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &6314043413455907182 stripped

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Views
 {
-    public class Transformable2DView : MonoBehaviour, IPoolable
+    public abstract class Transformable2DView : MonoBehaviour, IPoolable
     {
         public event Action OnBecomeInvisible;
          
@@ -27,8 +27,16 @@ namespace Views
         {
             if (_rigidbody != null)
             {
-                _model.Velocity = _rigidbody.velocity;
-                _model.Position = _rigidbody.position;
+                try
+                {
+                    _model.Velocity = _rigidbody.velocity;
+                    _model.Position = _rigidbody.position;
+                }
+                catch
+                {
+                    Debug.Log(this);
+                }
+                
             }
         }
 

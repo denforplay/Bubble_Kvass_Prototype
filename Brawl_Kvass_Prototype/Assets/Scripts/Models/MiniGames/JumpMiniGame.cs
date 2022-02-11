@@ -4,7 +4,6 @@ using Configurations;
 using Core;
 using Core.Interfaces;
 using Core.PopupSystem;
-using Models.Collisions;
 using Models.Spawners;
 using Models.Systems;
 using UnityEngine;
@@ -25,7 +24,6 @@ namespace Models.MiniGames
         private readonly PlatformFactory _platformFactory;
         private readonly PlatformSystem _platformSystem;
         private readonly PlatformSpawner _platformSpawner;
-        private readonly CollisionController _collisionController;
         private readonly PopupSystem _popupSystem;
         private readonly Camera _camera;
         private Character _character;
@@ -37,13 +35,12 @@ namespace Models.MiniGames
         private MoneySystem _moneySystem;
         
         public MiniGamePopup GetPopup() => _jumpGamePopup;
-        public JumpMiniGame(PlatformFactory factory, PopupSystem popupSystem, CollisionController collisionController, Camera camera, JumpGameConfiguration configuration)
+        public JumpMiniGame(PlatformFactory factory, PopupSystem popupSystem, Camera camera, JumpGameConfiguration configuration)
         {
             _viewsActions = new Dictionary<Transformable2DView, Action>();
             _configuration = configuration;
             _platformFactory = factory;
             _popupSystem = popupSystem;
-            _collisionController = collisionController;
             _camera = camera;
             _platformSystem = new PlatformSystem();
             _platformSpawner = new PlatformSpawner(_platformSystem, _camera);
@@ -117,7 +114,7 @@ namespace Models.MiniGames
                 SpawnOnePlatform();
             }
             
-            _jumpGamePopup.Initialize(_collisionController, _character);
+            _jumpGamePopup.Initialize(_character);
         }
 
         private void SpawnOnePlatform()
@@ -139,7 +136,7 @@ namespace Models.MiniGames
             _platformSystem.StopAll();
             _scoreSystem.Restart();
             PlaceGameObjects();
-            _jumpGamePopup.Initialize(_collisionController, _character);
+            _jumpGamePopup.Initialize(_character);
             _isGameRunning = true;
         }
 

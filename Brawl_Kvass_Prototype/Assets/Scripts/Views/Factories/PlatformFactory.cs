@@ -1,6 +1,5 @@
 ﻿using Core.Abstracts;
 using Models;
-using Models.Collisions;
 using UnityEngine;
 
 namespace Views.Factories

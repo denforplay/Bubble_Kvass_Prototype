@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6035916442329384676}
   - component: {fileID: 6035916442329384699}
-  - component: {fileID: 3732020365864858077}
-  - component: {fileID: 1165655118029471688}
   - component: {fileID: 3757919844395273699}
   - component: {fileID: 3757919844395273500}
+  - component: {fileID: 618533602350744772}
   m_Layer: 8
   m_Name: CarBarrier
   m_TagString: Untagged
@@ -86,31 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3732020365864858077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6035916442329384677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54a9ae1bbe854b4f9b78dc2c8698ff54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1165655118029471688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6035916442329384677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bd4927dd5134add8e1da07009423ea2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 3757919844395273699}
 --- !u!50 &3757919844395273699
 Rigidbody2D:
   serializedVersion: 4
@@ -158,3 +132,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.917205, y: 1.3863227}
   m_EdgeRadius: 0
+--- !u!114 &618533602350744772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035916442329384677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bea40861c89b42a1a32700129b17d7bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 3757919844395273699}

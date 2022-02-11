@@ -1211,7 +1211,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1939435054}
   - component: {fileID: 1939435056}
-  - component: {fileID: 1939435055}
   - component: {fileID: 1939435057}
   - component: {fileID: 1939435058}
   - component: {fileID: 1939435059}
@@ -1237,18 +1236,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1939435055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939435053}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 513a737b8b034062af125d2123cfd234, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1939435056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1262,7 +1249,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _compositeRoots:
-  - {fileID: 1939435055}
   - {fileID: 1939435057}
   - {fileID: 1939435059}
 --- !u!114 &1939435057
@@ -1283,7 +1269,6 @@ MonoBehaviour:
   _playerConfiguration: {fileID: 11400000, guid: d481ec5b08cc0b7429e5215a5c15c2a8, type: 2}
   _followCamera: {fileID: 963194229}
   _camera: {fileID: 963194227}
-  _collisionsRoot: {fileID: 1939435055}
   _platformFactory: {fileID: 1939435058}
   _barrierFactory: {fileID: 1939435060}
 --- !u!114 &1939435058
@@ -1299,7 +1284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewContainer: {fileID: 1792219006}
-  _defaultPlatform: {fileID: -6625941742576111063, guid: 2e1d7f1d4de0aff47a24b774cc9095b0, type: 3}
+  _defaultPlatform: {fileID: 5903966638340429574, guid: 2e1d7f1d4de0aff47a24b774cc9095b0, type: 3}
 --- !u!114 &1939435059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,7 +1312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewContainer: {fileID: 1792219006}
-  _defaultBarrier: {fileID: 1165655118029471688, guid: a700f9adff315d745b8140bcf9acb7af, type: 3}
+  _defaultBarrier: {fileID: 618533602350744772, guid: a700f9adff315d745b8140bcf9acb7af, type: 3}
 --- !u!224 &6920113677595921964 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1252916385815812474, guid: 6492d031a2e353544b029c4ec9bc0885, type: 3}
