@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234b96a3fadd433c944a9f5b4c2c49df, type: 3}
-  m_Name: InputsConfiguration
+  m_Script: {fileID: 11500000, guid: 5f94f828a9b04b11a2659556526abaed, type: 3}
+  m_Name: JumpGameConfiguration
   m_EditorClassIdentifier: 
-  _accelerometerSensitivity: 5
-  _jumpHeight: 8
+  _coinScoreNeeded: 4
+  _gemScoreNeeded: 8

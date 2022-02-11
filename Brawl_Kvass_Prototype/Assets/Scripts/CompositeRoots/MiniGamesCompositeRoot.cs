@@ -18,6 +18,7 @@ namespace CompositeRoots
 {
     public class MiniGamesCompositeRoot : CompositeRoot
     {
+        [SerializeField] private JumpGameConfiguration _jumpGameConfiguration;
         [SerializeField] private RunGameConfiguration _runGameConfiguration;
         [SerializeField] private InputsConfiguration _inputsConfiguration;
         [SerializeField] private PlayerConfiguration _playerConfiguration;
@@ -70,6 +71,12 @@ namespace CompositeRoots
                     throw new NotImplementedException();
             }
 
+            _currentGame.OnMoneyReceived += system =>
+            {
+                _playerData.ChangeMoney(system.CurrentCoins);
+                _playerData.ChangeGems(system.CurrentGems);
+            };
+            
             _currentGame.GetPopup().OnPauseClicked += () =>
             {
                 var gamePausePopup = _popupSystem.SpawnPopup<GamePausePopup>(1);
@@ -81,7 +88,7 @@ namespace CompositeRoots
 
         private void StartJumpingGame()
         {
-            _currentGame = new JumpMiniGame(_platformFactory, _popupSystem, _collisionController, _camera);
+            _currentGame = new JumpMiniGame(_platformFactory, _popupSystem, _collisionController, _camera, _jumpGameConfiguration);
             _currentGame.OnEnable();
             _currentGame.OnStart();
             _inputController = new JumpGamePlayerControls(_currentGame.GetPopup().Character, _playerConfiguration, _inputsConfiguration);
@@ -95,7 +102,7 @@ namespace CompositeRoots
             _currentGame = new RunMiniGame(_barrierFactory, _popupSystem, _collisionController, _camera, _runGameConfiguration);
             _currentGame.OnEnable();
             _currentGame.OnStart();
-            _inputController = new RunGamePlayerControls(_currentGame.GetPopup().Character);
+            _inputController = new RunGamePlayerControls(_currentGame.GetPopup().Character, _inputsConfiguration);
             _inputController.OnEnable();
             _currentGame.OnRestart += _followCamera.Restart;
         }

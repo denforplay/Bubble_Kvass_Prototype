@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.PopupSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ namespace Views.Popups
         public event Action OnShopClicked;
         public event Action OnChangeBackgroundClicked;
         public event Action OnFightersClicked;
-        public event Action OnChooseMinigameButtonClicked;
+        public event Action OnChooseMiniGameButtonClicked;
         public event Action OnPlayButtonClicked;
 
         [SerializeField] private Button _changeBackgroundButton;
@@ -20,13 +21,18 @@ namespace Views.Popups
         [SerializeField] private Button _playButton;
         [SerializeField] private Image _background;
         [SerializeField] private Image _fighter;
+        [SerializeField] private Image _miniGameMiniIcon;
+        [SerializeField] private Image _miniGameIcon;
+        [SerializeField] private TextMeshProUGUI _gameName;
+        [SerializeField] private TextMeshProUGUI _coinsText;
+        [SerializeField] private TextMeshProUGUI _gemsText;
         
         private void Start()
         {
             _changeBackgroundButton.onClick.AddListener(() => OnChangeBackgroundClicked?.Invoke());
             _shopButton.onClick.AddListener(() => OnShopClicked?.Invoke());
             _fighterButton.onClick.AddListener(() => OnFightersClicked?.Invoke());
-            _chooseMinigameButton.onClick.AddListener(() => OnChooseMinigameButtonClicked?.Invoke());
+            _chooseMinigameButton.onClick.AddListener(() => OnChooseMiniGameButtonClicked?.Invoke());
             _playButton.onClick.AddListener(() => OnPlayButtonClicked?.Invoke());
         }
 
@@ -38,6 +44,35 @@ namespace Views.Popups
         public void SetFighter(Sprite sprite)
         {
             _fighter.sprite = sprite;
+        }
+
+        public MainMenuPopup SetGameName(string gameName)
+        {
+            _gameName.text = gameName;
+            return this;
+        }
+        
+        
+        public MainMenuPopup SetGameMiniIcon(Sprite miniIcon)
+        {
+            _miniGameMiniIcon.sprite = miniIcon;
+            return this;
+        }
+        
+        public MainMenuPopup SetGameIcon(Sprite icon)
+        {
+            _miniGameIcon.sprite = icon;
+            return this;
+        }
+
+        public void SetCoinsText(int coins)
+        {
+            _coinsText.text = coins.ToString();
+        }
+        
+        public void SetGemsText(int gems)
+        {
+            _gemsText.text = gems.ToString();
         }
 
         public override void EnableInput()

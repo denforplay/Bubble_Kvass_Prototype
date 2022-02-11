@@ -4,9 +4,14 @@ namespace Models.Collisions
 {
     public class Collisions
     {
-        private readonly List<(object, object)> _collisionPairs = new List<(object, object)>();
+        private readonly List<(object, object)> _collisionPairs;
 
         public IEnumerable<(object, object)> CollisionPairs => _collisionPairs;
+
+        public Collisions()
+        {
+            _collisionPairs = new List<(object, object)>();
+        }
 
         public void TryBind(object a, object b)
         {

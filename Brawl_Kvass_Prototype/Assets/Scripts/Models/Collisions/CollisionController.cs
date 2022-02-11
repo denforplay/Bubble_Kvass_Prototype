@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Core.Interfaces;
 
@@ -8,11 +7,11 @@ namespace Models.Collisions
     public class CollisionController
     {
         private Collisions _collisions = new Collisions();
-        private readonly Func<IEnumerable<IRecord>> _startCollideRecordsProvider;
+        private readonly IEnumerable<IRecord> _startCollideRecordsProvider;
 
-        public CollisionController(Func<IEnumerable<IRecord>> startCollideRecordsProvider)
+        public CollisionController(IEnumerable<IRecord> startCollideRecords)
         {
-            _startCollideRecordsProvider = startCollideRecordsProvider;
+            _startCollideRecordsProvider = startCollideRecords;
         }
 
         public void Update()
@@ -22,10 +21,15 @@ namespace Models.Collisions
 
             _collisions = new Collisions();
         }
-
-        public void TryCollide((object, object) pair)
+        
+        public void TryAddCollision(object modelA, object modelB)
         {
-            IEnumerable<IRecord> records = _startCollideRecordsProvider?.Invoke().Where(record => record.IsTarget(pair));
+            _collisions.TryBind(modelA, modelB);
+        }
+
+        private void TryCollide((object, object) pair)
+        {
+            IEnumerable<IRecord> records = _startCollideRecordsProvider.Where(record => record.IsTarget(pair));
 
             foreach (var record in records)
                 ((dynamic) record).Do((dynamic) pair.Item1, (dynamic) pair.Item2);

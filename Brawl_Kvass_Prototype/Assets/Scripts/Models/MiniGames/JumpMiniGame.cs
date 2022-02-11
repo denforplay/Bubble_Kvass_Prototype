@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Configurations;
 using Core;
 using Core.Interfaces;
 using Core.PopupSystem;
@@ -17,8 +18,10 @@ namespace Models.MiniGames
 {
     public class JumpMiniGame : IMiniGame
     {
+        public event Action<MoneySystem> OnMoneyReceived;
         public event Action OnRestart;
 
+        private JumpGameConfiguration _configuration;
         private readonly PlatformFactory _platformFactory;
         private readonly PlatformSystem _platformSystem;
         private readonly PlatformSpawner _platformSpawner;
@@ -31,11 +34,13 @@ namespace Models.MiniGames
         private readonly ScoreSystem _scoreSystem;
         private readonly Dictionary<Transformable2DView, Action> _viewsActions;
         private bool _isGameRunning;
+        private MoneySystem _moneySystem;
         
         public MiniGamePopup GetPopup() => _jumpGamePopup;
-        public JumpMiniGame(PlatformFactory factory, PopupSystem popupSystem, CollisionController collisionController, Camera camera)
+        public JumpMiniGame(PlatformFactory factory, PopupSystem popupSystem, CollisionController collisionController, Camera camera, JumpGameConfiguration configuration)
         {
             _viewsActions = new Dictionary<Transformable2DView, Action>();
+            _configuration = configuration;
             _platformFactory = factory;
             _popupSystem = popupSystem;
             _collisionController = collisionController;
@@ -43,6 +48,7 @@ namespace Models.MiniGames
             _platformSystem = new PlatformSystem();
             _platformSpawner = new PlatformSpawner(_platformSystem, _camera);
             _scoreSystem = new ScoreSystem(nameof(JumpMiniGame));
+            _moneySystem = new MoneySystem();
         }
 
         public void OnStart()
@@ -51,6 +57,8 @@ namespace Models.MiniGames
             _jumpGamePopup = _popupSystem.SpawnPopup<JumpGamePopup>();
             _scoreSystem.OnScoreChanged += _jumpGamePopup.SetPoints;
             _scoreSystem.OnBestScoreChanged += _jumpGamePopup.SetBestPoints;
+            _moneySystem.OnGemsChanged += _jumpGamePopup.SetGemsText;
+            _moneySystem.OnMoneyChanged += _jumpGamePopup.SetCoinsText;
             _scoreSystem.Restart();
             _jumpGamePopup.Character.OnBecomeInvisible += () =>
             {
@@ -86,10 +94,14 @@ namespace Models.MiniGames
                 viewAction.Key.OnBecomeInvisible -= viewAction.Value;
             }
             _viewsActions.Clear();
+            var popup = _popupSystem.SpawnPopup<LosePopup>();
+            popup.SetScoreText(_scoreSystem.CurrentScore).SetCoinsText(_moneySystem.CurrentCoins)
+                .SetGemsText(_moneySystem.CurrentGems);
+            OnMoneyReceived?.Invoke(_moneySystem);
             _scoreSystem.SaveBestScore();
             _scoreSystem.Restart();
+            _moneySystem.Restart();
             _platformSystem.StopAll();
-            var popup = _popupSystem.SpawnPopup<LosePopup>();
             popup.OnRestart += Restart;
             popup.OnMainMenuButtonClicked += OnEnd;
         }
@@ -166,6 +178,10 @@ namespace Models.MiniGames
             if (platformView.transform.position.y < _character.Position.y)
             {
                 _scoreSystem.AddScores(1);
+                if (_scoreSystem.CurrentScore % _configuration.CoinScoreNeeded == 0)
+                    _moneySystem.ChangeCoins(1);
+                if (_scoreSystem.CurrentScore % _configuration.GemScoreNeeded == 0)
+                    _moneySystem.ChangeGems(1);
                 _platformSystem.OnEnd?.Invoke(platformEntity);
                 platformView.OnBecomeInvisible -= _viewsActions[platformView];
                 _viewsActions.Remove(platformView);

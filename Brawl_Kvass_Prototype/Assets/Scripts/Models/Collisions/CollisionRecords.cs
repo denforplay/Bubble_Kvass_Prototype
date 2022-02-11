@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Core;
 using Core.Interfaces;
-using UnityEngine;
 
 namespace Models.Collisions
 {

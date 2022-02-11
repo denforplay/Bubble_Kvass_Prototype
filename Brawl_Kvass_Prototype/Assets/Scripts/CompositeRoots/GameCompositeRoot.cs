@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using AppodealAds.Unity.Api;
+using Configurations;
 using Configurations.Info;
 using Core.Abstracts;
 using Core.PopupSystem;
@@ -12,6 +14,7 @@ namespace CompositeRoots
 {
     public class GameCompositeRoot : CompositeRoot
     {
+        [SerializeField] private MiniGamesConfiguration _miniGamesConfiguration;
         [SerializeField] private MiniGamesCompositeRoot _miniGamesRoot;
         private PopupSystem _popupSystem;
         private MainMenuPopup _mainMenuPopup;
@@ -27,25 +30,36 @@ namespace CompositeRoots
 
         private void Start()
         {
-            Appodeal.initialize("c800638c1b621bca247e7b942efb15dedc5e565ac02e1a01", Appodeal.INTERSTITIAL, true);
+            Appodeal.initialize("c800638c1b621bca247e7b942efb15dedc5e565ac02e1a01", Appodeal.INTERSTITIAL | Appodeal.BANNER_TOP, true);
+            //Appodeal.show(Appodeal.BANNER_TOP);
+            Debug.Log(_playerData.Coins);
         }
 
         public override void Compose()
         {
             _mainMenuPopup = _popupSystem.SpawnPopup<MainMenuPopup>();
+            //_popupSystem.OnMainPopupVisible += () => Appodeal.show(Appodeal.INTERSTITIAL);
             _mainMenuPopup.OnChangeBackgroundClicked += CallChangeBackgroundPopup;
-            _mainMenuPopup.OnShopClicked += CallShopPopup;
             _mainMenuPopup.OnFightersClicked += CallFightersPopup;
-            _mainMenuPopup.OnChooseMinigameButtonClicked += CallChooseMiniGamePopup;
+            _mainMenuPopup.OnChooseMiniGameButtonClicked += CallChooseMiniGamePopup;
             _mainMenuPopup.OnPlayButtonClicked += () => _miniGamesRoot.StartGame(_gameInfo);
             _playerData.OnBackgroundChanged += info => _mainMenuPopup.SetBackground(info.Sprite);
             _playerData.OnFighterChanged += info => _mainMenuPopup.SetFighter(info.FighterSprite);
+            _playerData.OnMoneyChanged += _mainMenuPopup.SetCoinsText;
+            _playerData.OnGemsChanged += _mainMenuPopup.SetGemsText;
             _playerData.Refresh();
-            Appodeal.show(Appodeal.INTERSTITIAL);
+            SetMiniGame(_miniGamesConfiguration.MiniGamesInfos.First());
         }
 
         private void OnDisable()
         {
+            Debug.Log("Disable + data save");
+            _playerData.SaveData();
+        }
+
+        private void OnDestroy()
+        {
+            Debug.Log("Destroyed game composite root");
             _playerData.SaveData();
         }
 
@@ -54,13 +68,6 @@ namespace CompositeRoots
             var backgroundPopup = _popupSystem.SpawnPopup<ChangeBackgroundPopup>();
             backgroundPopup.Initialize(_playerData.CurrentBackground.Sprite);
             backgroundPopup.OnBackgroundChanged += _playerData.SetBackground;
-        }
-
-        private void CallShopPopup()
-        {
-            Appodeal.show(Appodeal.INTERSTITIAL);
-            var shopPopup = _popupSystem.SpawnPopup<ShopPopup>();
-            shopPopup.Initialize(_playerData.CurrentBackground.Sprite);
         }
 
         private void CallFightersPopup()
@@ -92,6 +99,7 @@ namespace CompositeRoots
         private void SetMiniGame(MiniGameInfo gameInfo)
         {
             _gameInfo = gameInfo;
+            _mainMenuPopup.SetGameName(gameInfo.MiniGameName).SetGameMiniIcon(gameInfo.MiniGameMiniIcon).SetGameIcon(gameInfo.MiniGameIcon);
         }
     }
 }

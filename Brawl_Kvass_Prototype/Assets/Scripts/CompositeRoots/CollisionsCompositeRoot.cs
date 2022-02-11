@@ -1,5 +1,4 @@
 ﻿using Core.Abstracts;
-using Cysharp.Threading.Tasks;
 using Models.Collisions;
 
 namespace CompositeRoots
@@ -13,8 +12,7 @@ namespace CompositeRoots
         public override void Compose()
         {
             _records = new CollisionRecords();
-            _controller = new CollisionController(_records.StartCollideValues);
-            Update();
+            _controller = new CollisionController(_records.StartCollideValues());
         }
         
         private void Update()

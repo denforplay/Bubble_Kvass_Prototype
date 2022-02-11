@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.PopupSystem.Configurations;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Core.PopupSystem
 {
     public class PopupSystem : MonoBehaviour
     {
+        public event Action OnMainPopupVisible;
         [SerializeField] private List<Canvas> _canvases;
         [SerializeField] private Popup _startPopup;
         private readonly Stack<Popup> _popups = new Stack<Popup>();
@@ -46,6 +48,11 @@ namespace Core.PopupSystem
         {
             Popup popup = _popups.Pop();
             popup.Hide();
+            Debug.Log(_popups.Count);
+            if (_popups.Count == 1)
+            {
+                OnMainPopupVisible?.Invoke();
+            }
         }
     }
 }

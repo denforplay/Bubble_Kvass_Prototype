@@ -18,6 +18,8 @@ namespace Views.Popups.MiniGamesPopups
         [SerializeField] private Transformable2DView _playingCharacter;
         [SerializeField] private CollisionEvent _characterEvent;
         [SerializeField] private SpriteRenderer _characterSprite;
+        [SerializeField] private TextMeshProUGUI _coinsText;
+        [SerializeField] private TextMeshProUGUI _gemsText;
         private CollisionController _collisionController;
 
         public Transformable2DView Character => _playingCharacter;
@@ -50,6 +52,16 @@ namespace Views.Popups.MiniGamesPopups
         public void SetBestPoints(int points)
         {
             _bestPointsText.text = $"Best: {points}";
+        }
+
+        public void SetCoinsText(int money)
+        {
+            _coinsText.text = money.ToString();
+        }
+
+        public void SetGemsText(int gems)
+        {
+            _gemsText.text = gems.ToString();
         }
 
         public override void EnableInput()

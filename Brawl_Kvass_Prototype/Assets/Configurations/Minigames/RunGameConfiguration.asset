@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936cedbf5de0469388d1dcc032fdab58, type: 3}
   m_Name: RunGameConfiguration
   m_EditorClassIdentifier: 
-  _minBarrierSpeed: -5
-  _maxBarrierSpeed: -2
+  _minBarrierSpeed: -2.5
+  _maxBarrierSpeed: -1.5
+  _coinScoreNeeded: 4
+  _gemScoreNeeded: 8
