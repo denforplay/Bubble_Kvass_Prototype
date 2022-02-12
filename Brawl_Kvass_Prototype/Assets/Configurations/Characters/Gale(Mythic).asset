@@ -17,3 +17,4 @@ MonoBehaviour:
   _fighterName: Gale
   _rarity: 3
   _fighterDescription: Mythic character with name Gale
+  _isUnlocked: 1

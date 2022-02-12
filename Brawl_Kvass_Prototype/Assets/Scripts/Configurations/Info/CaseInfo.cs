@@ -2,7 +2,7 @@
 
 namespace Configurations.Info
 {
-    [CreateAssetMenu(menuName = "Configurations/Case info", order = 0)]
+    [CreateAssetMenu(menuName = "Configurations/Infos/Case info", order = 0)]
     public class CaseInfo : ScriptableObject
     {
         [SerializeField] private string _caseName;

@@ -5,8 +5,8 @@ using Core.Abstracts;
 using Core.Enums;
 using Core.Interfaces;
 using Core.PopupSystem;
+using Data;
 using Inputs;
-using Models;
 using Models.MiniGames;
 using UnityEngine;
 using Views.Factories;
@@ -28,12 +28,12 @@ namespace CompositeRoots
         private PopupSystem _popupSystem;
         private IMiniGame _currentGame;
         private IInputController _inputController;
-        private PlayerData _playerData;
+        private PlayerDataProvider _playerDataProvider;
         
         [Inject]
-        public void Initialize(PopupSystem popupSystem, PlayerData playerData)
+        public void Initialize(PopupSystem popupSystem, PlayerDataProvider playerDataProvider)
         {
-            _playerData = playerData;
+            _playerDataProvider = playerDataProvider;
             _popupSystem = popupSystem;
         }
 
@@ -67,8 +67,8 @@ namespace CompositeRoots
 
             _currentGame.OnMoneyReceived += system =>
             {
-                _playerData.ChangeMoney(system.CurrentCoins);
-                _playerData.ChangeGems(system.CurrentGems);
+                _playerDataProvider.PlayerData.ChangeMoney(system.CurrentCoins);
+                _playerDataProvider.PlayerData.ChangeGems(system.CurrentGems);
             };
             
             _currentGame.GetPopup().OnPauseClicked += () =>
@@ -77,7 +77,7 @@ namespace CompositeRoots
                 gamePausePopup.OnRestartClicked += _currentGame.Restart;
                 gamePausePopup.OnMainMenuClicked += _currentGame.OnEnd;
             };
-            _currentGame.GetPopup().SetCharacterSprite(_playerData.CurrentFighter.FighterSprite);
+            _currentGame.GetPopup().SetCharacterSprite(_playerDataProvider.FightersRepository.GetCurrent().FighterSprite);
         }
 
         private void StartJumpingGame()

@@ -2,7 +2,7 @@
 using Core.Abstracts;
 using UnityEngine;
 
-namespace Models
+namespace Models.Concretes
 {
     public class Character : Transformable2D
     {

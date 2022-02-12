@@ -1,5 +1,5 @@
 using Configurations;
-using Models;
+using Data;
 using UnityEngine;
 using Zenject;
 
@@ -9,10 +9,11 @@ namespace Resources
     {
         [SerializeField] private MainMenuBackgroundConfiguration _backgroundConfiguration;
         [SerializeField] private FightersConfiguration _fightersConfiguration;
+        [SerializeField] private PlayerIconsConfiguration _playerIconsConfiguration;
         
         public override void InstallBindings()
         {
-            Container.Bind<PlayerData>().FromInstance(new PlayerData(_backgroundConfiguration, _fightersConfiguration)).AsSingle();
+            Container.Bind<PlayerDataProvider>().FromInstance(new PlayerDataProvider(_backgroundConfiguration, _playerIconsConfiguration, _fightersConfiguration)).AsSingle();
         }
     }
 }

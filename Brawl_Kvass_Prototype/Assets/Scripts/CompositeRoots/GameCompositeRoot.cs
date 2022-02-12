@@ -4,6 +4,7 @@ using Configurations;
 using Configurations.Info;
 using Core.Abstracts;
 using Core.PopupSystem;
+using Data;
 using Models;
 using UnityEngine;
 using Views.Popups;
@@ -13,17 +14,18 @@ namespace CompositeRoots
 {
     public class GameCompositeRoot : CompositeRoot
     {
+        [SerializeField] private PlayerIconsConfiguration _playerIconsConfig;
         [SerializeField] private MiniGamesConfiguration _miniGamesConfiguration;
         [SerializeField] private MiniGamesCompositeRoot _miniGamesRoot;
         private PopupSystem _popupSystem;
         private MainMenuPopup _mainMenuPopup;
         private MiniGameInfo _gameInfo;
-        private PlayerData _playerData;
+        private PlayerDataProvider _playerDataProvider;
 
         [Inject]
-        public void Initialize(PopupSystem popupSystem, PlayerData playerData)
+        public void Initialize(PopupSystem popupSystem, PlayerDataProvider playerDataProvider)
         {
-            _playerData = playerData;
+            _playerDataProvider = playerDataProvider;
             _popupSystem = popupSystem;
         }
 
@@ -31,7 +33,6 @@ namespace CompositeRoots
         {
             Appodeal.initialize("c800638c1b621bca247e7b942efb15dedc5e565ac02e1a01", Appodeal.INTERSTITIAL | Appodeal.BANNER_TOP, true);
             //Appodeal.show(Appodeal.BANNER_TOP);
-            Debug.Log(_playerData.Coins);
         }
 
         public override void Compose()
@@ -42,47 +43,48 @@ namespace CompositeRoots
             _mainMenuPopup.OnFightersClicked += CallFightersPopup;
             _mainMenuPopup.OnChooseMiniGameButtonClicked += CallChooseMiniGamePopup;
             _mainMenuPopup.OnPlayButtonClicked += () => _miniGamesRoot.StartGame(_gameInfo);
-            _playerData.OnBackgroundChanged += info => _mainMenuPopup.SetBackground(info.Sprite);
-            _playerData.OnFighterChanged += info => _mainMenuPopup.SetFighter(info.FighterSprite);
-            _playerData.OnMoneyChanged += _mainMenuPopup.SetCoinsText;
-            _playerData.OnGemsChanged += _mainMenuPopup.SetGemsText;
-            _playerData.Refresh();
+            _mainMenuPopup.OnPlayerInfoClicked += CallPlayerInfoPopup;
+            _playerDataProvider.BackgroundsRepository.OnCurrentEntityChanged += info => _mainMenuPopup.SetBackground(info.Sprite);
+            _playerDataProvider.FightersRepository.OnCurrentEntityChanged += info => _mainMenuPopup.SetFighter(info.FighterSprite);
+            _playerDataProvider.PlayerData.OnMoneyChanged += _mainMenuPopup.SetCoinsText;
+            _playerDataProvider.PlayerData.OnGemsChanged += _mainMenuPopup.SetGemsText;
+            _playerDataProvider.PlayerData.OnNameChanged += _mainMenuPopup.SetPlayerName;
+            _playerDataProvider.PlayerIconsRepository.OnCurrentEntityChanged += info => _mainMenuPopup.SetPlayerIcon(info.Icon);
+            _playerDataProvider.Refresh();
+            if (_playerDataProvider.PlayerData.PlayerNickname is null)
+            {
+                var createNicknamePopup = _popupSystem.SpawnPopup<CreateNicknamePopup>();
+                createNicknamePopup.OnNameSetted += _playerDataProvider.PlayerData.SetName;
+            }
             SetMiniGame(_miniGamesConfiguration.MiniGamesInfos.First());
         }
 
         private void OnDisable()
         {
-            Debug.Log("Disable + data save");
-            _playerData.SaveData();
-        }
-
-        private void OnDestroy()
-        {
-            Debug.Log("Destroyed game composite root");
-            _playerData.SaveData();
+            _playerDataProvider.Save();
         }
 
         private void CallChangeBackgroundPopup()
         {
             var backgroundPopup = _popupSystem.SpawnPopup<ChangeBackgroundPopup>();
-            backgroundPopup.Initialize(_playerData.CurrentBackground.Sprite);
-            backgroundPopup.OnBackgroundChanged += _playerData.SetBackground;
+            backgroundPopup.Initialize(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite);
+            backgroundPopup.OnBackgroundChanged += info => _playerDataProvider.BackgroundsRepository.SetCurrent(info.Id);
         }
 
         private void CallFightersPopup()
         {
             var fightersPopup = _popupSystem.SpawnPopup<FighterPopup>();
-            fightersPopup.Initialize(_playerData.CurrentBackground.Sprite);
+            fightersPopup.Initialize(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite);
             fightersPopup.OnFighterClicked += CallFighterDescriptionPopup;
         }
 
         private void CallFighterDescriptionPopup(FighterInfo fighterInfo)
         {
             var fighterDescriptionPopup = _popupSystem.SpawnPopup<FighterDescriptionPopup>();
-            fighterDescriptionPopup.Initialize(fighterInfo, _playerData.CurrentBackground.Sprite);
+            fighterDescriptionPopup.Initialize(fighterInfo, _playerDataProvider.BackgroundsRepository.GetCurrent().Sprite);
             fighterDescriptionPopup.OnChooseFighter += info =>
             {
-                _playerData.SetFighter(info);
+                _playerDataProvider.FightersRepository.SetCurrent(info._id);
                 _popupSystem.DeletePopUp();//Fighter description popup
                 _popupSystem.DeletePopUp();//List of fighters popup
             };
@@ -91,8 +93,25 @@ namespace CompositeRoots
         private void CallChooseMiniGamePopup()
         {
             var miniGamesChoosePopup = _popupSystem.SpawnPopup<MinigamesChoosePopup>();
-            miniGamesChoosePopup.Initialize(_playerData.CurrentBackground.Sprite);
+            miniGamesChoosePopup.Initialize(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite);
             miniGamesChoosePopup.OnMiniGameClicked += SetMiniGame;
+        }
+
+        private void CallPlayerInfoPopup()
+        {
+            var playerInfoPopup = _popupSystem.SpawnPopup<PlayerInfoPopup>();
+            playerInfoPopup.SetCoinsForAllTime(_playerDataProvider.PlayerData.CoinsForAllTime).SetName(_playerDataProvider.PlayerData.PlayerNickname)
+                .SetGemsForAllTime(_playerDataProvider.PlayerData.GemsForAllTime).SetBackground(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite)
+                .SetPlayerIcon(_playerDataProvider.PlayerIconsRepository.GetCurrent().Icon);
+            playerInfoPopup.OnPlayerIconChangedClick += () => CallChangeIconPopup(playerInfoPopup);
+        }
+
+        private void CallChangeIconPopup(PlayerInfoPopup playerInfoPopup)
+        {
+            var changePlayerIconPopup = _popupSystem.SpawnPopup<ChangePlayerIconPopup>();
+            changePlayerIconPopup.Initialize(_playerIconsConfig);
+            changePlayerIconPopup.OnPlayerIconChanged += info => _playerDataProvider.PlayerIconsRepository.SetCurrent(info.Id);
+            changePlayerIconPopup.OnPlayerIconChanged += info => playerInfoPopup.SetPlayerIcon(info.Icon);
         }
 
         private void SetMiniGame(MiniGameInfo gameInfo)

@@ -416,7 +416,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.95
+  m_fontSize: 171.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -690,7 +690,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _background: {fileID: 8495850857751664237}
-  _backgroundButtonPrefab: {fileID: 5161066435784237726, guid: fe5ed7a2abcd7d8438007ae783c18da7, type: 3}
+  _backgroundImageButtonPrefab: {fileID: 5161066435784237726, guid: fe5ed7a2abcd7d8438007ae783c18da7, type: 3}
+  _moneyConfiguration: {fileID: 11400000, guid: 4040748bfd8fe1743929b0be23a36b91, type: 2}
   _backgroundsConfiguration: {fileID: 11400000, guid: d02a2fd04663c5a4a9015c51a23325ba, type: 2}
   _scrollContent: {fileID: 8495850858259357888}
   _returnButton: {fileID: 8495850857693365225}

@@ -1,7 +1,7 @@
 ﻿using Core.Abstracts;
 using UnityEngine;
 
-namespace Models
+namespace Models.Concretes
 {
     public class Barrier : Transformable2D
     {

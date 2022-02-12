@@ -15,3 +15,4 @@ MonoBehaviour:
   _fighterInfos:
   - {fileID: 11400000, guid: b58299578a502164292e54c9452dea86, type: 2}
   - {fileID: 11400000, guid: bdfa4f0e428e3534e8f4699bf42c209c, type: 2}
+  - {fileID: 11400000, guid: b78c3f4f0fda0cf4f8c07c986c54ea47, type: 2}

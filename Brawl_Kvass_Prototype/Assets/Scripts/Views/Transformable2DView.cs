@@ -27,16 +27,8 @@ namespace Views
         {
             if (_rigidbody != null)
             {
-                try
-                {
-                    _model.Velocity = _rigidbody.velocity;
-                    _model.Position = _rigidbody.position;
-                }
-                catch
-                {
-                    Debug.Log(this);
-                }
-                
+                _model.Velocity = _rigidbody.velocity;
+                _model.Position = _rigidbody.position;
             }
         }
 

@@ -48,7 +48,6 @@ namespace Core.PopupSystem
         {
             Popup popup = _popups.Pop();
             popup.Hide();
-            Debug.Log(_popups.Count);
             if (_popups.Count == 1)
             {
                 OnMainPopupVisible?.Invoke();

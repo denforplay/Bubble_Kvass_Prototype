@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Configurations.Info
 {
-    [CreateAssetMenu(menuName = "Configurations/Mini game info", order = 0)]
+    [CreateAssetMenu(menuName = "Configurations/Infos/Mini game info", order = 0)]
     public class MiniGameInfo : ScriptableObject
     {
         [SerializeField] private string _miniGameName;

@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Abstracts;
+using Models.Concretes;
 
 namespace Models.Systems
 {

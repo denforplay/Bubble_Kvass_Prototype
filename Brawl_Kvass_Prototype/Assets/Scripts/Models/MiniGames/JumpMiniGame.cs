@@ -4,6 +4,7 @@ using Configurations;
 using Core;
 using Core.Interfaces;
 using Core.PopupSystem;
+using Models.Concretes;
 using Models.Spawners;
 using Models.Systems;
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace Models.MiniGames
         public event Action<MoneySystem> OnMoneyReceived;
         public event Action OnRestart;
 
+        private readonly ScoreSystem _scoreSystem;
+        private MoneySystem _moneySystem;
         private JumpGameConfiguration _configuration;
         private readonly PlatformFactory _platformFactory;
         private readonly PlatformSystem _platformSystem;
@@ -29,10 +32,9 @@ namespace Models.MiniGames
         private Character _character;
         private JumpGamePopup _jumpGamePopup;
         private Vector2 _lastPlatformPosition;
-        private readonly ScoreSystem _scoreSystem;
+
         private readonly Dictionary<Transformable2DView, Action> _viewsActions;
         private bool _isGameRunning;
-        private MoneySystem _moneySystem;
         
         public MiniGamePopup GetPopup() => _jumpGamePopup;
         public JumpMiniGame(PlatformFactory factory, PopupSystem popupSystem, Camera camera, JumpGameConfiguration configuration)

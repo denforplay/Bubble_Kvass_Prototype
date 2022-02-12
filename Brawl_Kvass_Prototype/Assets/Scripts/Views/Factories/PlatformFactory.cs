@@ -1,5 +1,6 @@
 ﻿using Core.Abstracts;
 using Models;
+using Models.Concretes;
 using UnityEngine;
 
 namespace Views.Factories

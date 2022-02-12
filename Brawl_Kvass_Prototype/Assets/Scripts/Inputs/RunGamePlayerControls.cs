@@ -35,7 +35,6 @@ namespace Inputs
 
         public void Update()
         {
-            Debug.Log(_playerInputs.RunGameInputs.Jump.triggered);
             _isInJumping = _characterTransformable.Model.Velocity.y != 0;
             if (_characterTransformable.Model.Velocity.y == 0)
                 _isInDoubleJumping = false;

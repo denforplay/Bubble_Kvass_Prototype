@@ -12,25 +12,27 @@ namespace Views.Popups
     {
         public event Action<BackgroundInfo> OnBackgroundChanged;
         [SerializeField] private Image _background;
-        [SerializeField] private TextButton _backgroundButtonPrefab;
+        [SerializeField] private TextImageButton _backgroundImageButtonPrefab;
+        [SerializeField] private MoneyConfiguration _moneyConfiguration;
         [SerializeField] private MainMenuBackgroundConfiguration _backgroundsConfiguration;
         [SerializeField] private GameObject _scrollContent;
         [SerializeField] private Button _returnButton;
-
         private void Start()
         {
             _returnButton.onClick.AddListener(OnClosing);
             foreach (var background in _backgroundsConfiguration.Backgrounds)
             {
-                TextButton button = Instantiate(_backgroundButtonPrefab, _scrollContent.transform);
-                button.Button.image.sprite = background.Sprite;
+                TextImageButton imageButton = Instantiate(_backgroundImageButtonPrefab, _scrollContent.transform);
+                imageButton.Button.image.sprite = background.Sprite;
                 if (background.Cost == 0)
                 {
-                    button.Button.onClick.AddListener(() => SetBackground(background));
+                    imageButton.Button.onClick.AddListener(() => SetBackground(background));
+                    imageButton.Image.color = Color.clear;
                 }
                 else
                 {
-                    button.Text.text = background.Cost.ToString();
+                    imageButton.Text.text = background.Cost.ToString();
+                    imageButton.Image.sprite = _moneyConfiguration[background.MoneyType];
                 }
             }
         }

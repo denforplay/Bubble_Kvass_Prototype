@@ -17,3 +17,4 @@ MonoBehaviour:
   _fighterName: Carl
   _rarity: 0
   _fighterDescription: Usual character with name Carl
+  _isUnlocked: 1

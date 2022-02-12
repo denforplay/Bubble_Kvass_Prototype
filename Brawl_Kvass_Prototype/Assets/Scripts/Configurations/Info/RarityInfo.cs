@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Configurations.Info
 {
-    [CreateAssetMenu(menuName = "Configurations/Rarity info", order = 0)]
+    [CreateAssetMenu(menuName = "Configurations/Infos/Rarity info", order = 0)]
     public class RarityInfo : ScriptableObject
     {
         [SerializeField] private Rarity _rarity;
