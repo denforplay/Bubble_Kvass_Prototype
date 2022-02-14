@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 148cac09d1aa4c6c879dd46b7385a482, type: 3}
-  m_Name: MenuBackground4
+  m_Script: {fileID: 11500000, guid: 8236b7d19f254ec6b3f0e93bbc91ffe0, type: 3}
+  m_Name: Sandy(Epic)
   m_EditorClassIdentifier: 
   _id: 3
-  _sprite: {fileID: 21300000, guid: 7af194d04d77dad4f9dac333e72d0171, type: 3}
-  _cost: 1
-  _moneyType: 1
+  _fighterSprite: {fileID: 21300000, guid: 8495c503e4b20e44e81397f230086e11, type: 3}
+  _fighterName: Sandy
+  _rarity: 2
+  _fighterDescription: Sandy is Epic Fighter
+  _isUnlocked: 1

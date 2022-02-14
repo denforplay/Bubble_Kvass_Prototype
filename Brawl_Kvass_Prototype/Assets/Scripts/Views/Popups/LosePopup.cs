@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Enums;
 using Core.PopupSystem;
 using TMPro;
 using UnityEngine;
@@ -37,15 +38,21 @@ namespace Views.Popups
             return this;
         }
         
-        public LosePopup SetCoinsText(int value)
+        public LosePopup SetMoneyText(MoneyType moneyType, int value)
         {
-            _coinsText.text = value.ToString();
-            return this;
-        }
-        
-        public LosePopup SetGemsText(int value)
-        {
-            _gemsText.text = value.ToString();
+            switch (moneyType)
+            {
+                case MoneyType.Coin:
+                {
+                    _coinsText.text = value.ToString();
+                    break;
+                }
+                case MoneyType.Gem:
+                {
+                    _gemsText.text = value.ToString();
+                    break;
+                }
+            }
             return this;
         }
         

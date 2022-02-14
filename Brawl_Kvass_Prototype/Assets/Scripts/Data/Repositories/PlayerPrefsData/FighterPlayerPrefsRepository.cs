@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management.Instrumentation;
 using Configurations;
 using Configurations.Info;
 using Core.Interfaces;
 using UnityEngine;
 
-namespace Data.Repositories
+namespace Data.Repositories.PlayerPrefsData
 {
     public class FighterPlayerPrefsRepository : IRepository<FighterInfo>
     {
@@ -50,6 +49,7 @@ namespace Data.Repositories
                 _currentFighter = FindById(id);
             
             OnCurrentEntityChanged?.Invoke(_currentFighter);
+            Save();
         }
 
         public FighterInfo FindById(int id)
@@ -60,7 +60,7 @@ namespace Data.Repositories
                 return _fightersConfiguration.FighterInfos.Find(x => x.Id == entityId);
             }
 
-            return _fightersConfiguration.FighterInfos.Find(x => x.Id == id);
+            return _fightersConfiguration.FighterInfos.Find(x => x.Id == id && x.IsUnlocked);
         }
 
         public IEnumerable<FighterInfo> Get()

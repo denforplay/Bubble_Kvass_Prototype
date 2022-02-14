@@ -6,7 +6,7 @@ using Configurations.Info;
 using Core.Interfaces;
 using UnityEngine;
 
-namespace Data.Repositories
+namespace Data.Repositories.PlayerPrefsData
 {
     public class PlayerIconsRepository : IRepository<PlayerIconInfo>
     {
@@ -49,6 +49,7 @@ namespace Data.Repositories
                 _currentIcon = FindById(id);
             
             OnCurrentEntityChanged?.Invoke(_currentIcon);
+            Save();
         }
 
         public PlayerIconInfo FindById(int id)
@@ -59,7 +60,7 @@ namespace Data.Repositories
                 return _playerIconsConfiguration.PlayerIconInfos.Find(x => x.Id == entityId);
             }
 
-            return _playerIconsConfiguration.PlayerIconInfos.Find(x => x.Id == id);
+            return _playerIconsConfiguration.PlayerIconInfos.Find(x => x.Id == id && x.IsUnlocked);
         }
 
         public IEnumerable<PlayerIconInfo> Get()

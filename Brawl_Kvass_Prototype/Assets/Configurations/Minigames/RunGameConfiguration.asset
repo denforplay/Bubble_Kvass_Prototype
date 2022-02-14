@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minBarrierSpeed: -2.5
   _maxBarrierSpeed: -1.5
-  _coinScoreNeeded: 4
-  _gemScoreNeeded: 8
+  _coinScoreNeeded: 3
+  _gemScoreNeeded: 6

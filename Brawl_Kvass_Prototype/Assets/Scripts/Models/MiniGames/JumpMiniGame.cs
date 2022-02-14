@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Configurations;
 using Core;
+using Core.Enums;
 using Core.Interfaces;
 using Core.PopupSystem;
 using Models.Concretes;
@@ -56,8 +57,7 @@ namespace Models.MiniGames
             _jumpGamePopup = _popupSystem.SpawnPopup<JumpGamePopup>();
             _scoreSystem.OnScoreChanged += _jumpGamePopup.SetPoints;
             _scoreSystem.OnBestScoreChanged += _jumpGamePopup.SetBestPoints;
-            _moneySystem.OnGemsChanged += _jumpGamePopup.SetGemsText;
-            _moneySystem.OnMoneyChanged += _jumpGamePopup.SetCoinsText;
+            _moneySystem.OnValueChanged += _jumpGamePopup.SetMoneyText;
             _scoreSystem.Restart();
             _jumpGamePopup.Character.OnBecomeInvisible += () =>
             {
@@ -94,8 +94,12 @@ namespace Models.MiniGames
             }
             _viewsActions.Clear();
             var popup = _popupSystem.SpawnPopup<LosePopup>();
-            popup.SetScoreText(_scoreSystem.CurrentScore).SetCoinsText(_moneySystem.CurrentCoins)
-                .SetGemsText(_moneySystem.CurrentGems);
+            foreach (var pair in _moneySystem.Money)
+            {
+                popup.SetMoneyText(pair.Key, pair.Value);
+            }
+
+            popup.SetScoreText(_scoreSystem.CurrentScore);
             OnMoneyReceived?.Invoke(_moneySystem);
             _scoreSystem.SaveBestScore();
             _scoreSystem.Restart();
@@ -107,6 +111,7 @@ namespace Models.MiniGames
         
         private void PlaceGameObjects()
         {
+            _camera.transform.position = new Vector3(_camera.transform.position.x, 0, _camera.transform.position.z);
             SpawnCharacter();
             _lastPlatformPosition = new Vector3(Screen.width/2, 0, 10);
             var worldPosition = _camera.ScreenToWorldPoint(_lastPlatformPosition);
@@ -147,6 +152,7 @@ namespace Models.MiniGames
             _isGameRunning = false;
             ClearViewActions();
             _platformSystem.StopAll();
+            OnMoneyReceived?.Invoke(_moneySystem);
             _scoreSystem.SaveBestScore();
             OnDisable();
             _popupSystem.DeletePopUp();
@@ -154,7 +160,7 @@ namespace Models.MiniGames
 
         private void SpawnCharacter()
         {
-            var positionInScreen = new Vector3(Screen.width / 2, Screen.height / 6);
+            var positionInScreen = new Vector3(Screen.width / 2, Screen.height / 8);
             var startPosition = _camera.ScreenToWorldPoint(positionInScreen);
             _character = new Character(startPosition, Vector2.zero);
         }
@@ -178,9 +184,9 @@ namespace Models.MiniGames
             {
                 _scoreSystem.AddScores(1);
                 if (_scoreSystem.CurrentScore % _configuration.CoinScoreNeeded == 0)
-                    _moneySystem.ChangeCoins(1);
+                    _moneySystem.ChangeMoney(MoneyType.Coin,1);
                 if (_scoreSystem.CurrentScore % _configuration.GemScoreNeeded == 0)
-                    _moneySystem.ChangeGems(1);
+                    _moneySystem.ChangeMoney(MoneyType.Gem,1);
                 _platformSystem.OnEnd?.Invoke(platformEntity);
                 platformView.OnBecomeInvisible -= _viewsActions[platformView];
                 _viewsActions.Remove(platformView);

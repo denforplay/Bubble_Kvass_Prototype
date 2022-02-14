@@ -3,9 +3,9 @@ using AppodealAds.Unity.Api;
 using Configurations;
 using Configurations.Info;
 using Core.Abstracts;
+using Core.Enums;
 using Core.PopupSystem;
 using Data;
-using Models;
 using UnityEngine;
 using Views.Popups;
 using Zenject;
@@ -32,13 +32,14 @@ namespace CompositeRoots
         private void Start()
         {
             Appodeal.initialize("c800638c1b621bca247e7b942efb15dedc5e565ac02e1a01", Appodeal.INTERSTITIAL | Appodeal.BANNER_TOP, true);
-            //Appodeal.show(Appodeal.BANNER_TOP);
+            Appodeal.show(Appodeal.BANNER_TOP);
         }
 
         public override void Compose()
         {
+
             _mainMenuPopup = _popupSystem.SpawnPopup<MainMenuPopup>();
-            //_popupSystem.OnMainPopupVisible += () => Appodeal.show(Appodeal.INTERSTITIAL);
+            _popupSystem.OnMainPopupVisible += () => Appodeal.show(Appodeal.INTERSTITIAL);
             _mainMenuPopup.OnChangeBackgroundClicked += CallChangeBackgroundPopup;
             _mainMenuPopup.OnFightersClicked += CallFightersPopup;
             _mainMenuPopup.OnChooseMiniGameButtonClicked += CallChooseMiniGamePopup;
@@ -46,8 +47,7 @@ namespace CompositeRoots
             _mainMenuPopup.OnPlayerInfoClicked += CallPlayerInfoPopup;
             _playerDataProvider.BackgroundsRepository.OnCurrentEntityChanged += info => _mainMenuPopup.SetBackground(info.Sprite);
             _playerDataProvider.FightersRepository.OnCurrentEntityChanged += info => _mainMenuPopup.SetFighter(info.FighterSprite);
-            _playerDataProvider.PlayerData.OnMoneyChanged += _mainMenuPopup.SetCoinsText;
-            _playerDataProvider.PlayerData.OnGemsChanged += _mainMenuPopup.SetGemsText;
+            _playerDataProvider.MoneyRepository.OnValueChanged += _mainMenuPopup.SetMoneyText;
             _playerDataProvider.PlayerData.OnNameChanged += _mainMenuPopup.SetPlayerName;
             _playerDataProvider.PlayerIconsRepository.OnCurrentEntityChanged += info => _mainMenuPopup.SetPlayerIcon(info.Icon);
             _playerDataProvider.Refresh();
@@ -67,7 +67,7 @@ namespace CompositeRoots
         private void CallChangeBackgroundPopup()
         {
             var backgroundPopup = _popupSystem.SpawnPopup<ChangeBackgroundPopup>();
-            backgroundPopup.Initialize(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite);
+            backgroundPopup.Initialize(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite, _playerDataProvider);
             backgroundPopup.OnBackgroundChanged += info => _playerDataProvider.BackgroundsRepository.SetCurrent(info.Id);
         }
 
@@ -100,8 +100,8 @@ namespace CompositeRoots
         private void CallPlayerInfoPopup()
         {
             var playerInfoPopup = _popupSystem.SpawnPopup<PlayerInfoPopup>();
-            playerInfoPopup.SetCoinsForAllTime(_playerDataProvider.PlayerData.CoinsForAllTime).SetName(_playerDataProvider.PlayerData.PlayerNickname)
-                .SetGemsForAllTime(_playerDataProvider.PlayerData.GemsForAllTime).SetBackground(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite)
+            playerInfoPopup.SetCoinsForAllTime(_playerDataProvider.PlayerData.BestMoney.Money[MoneyType.Coin]).SetName(_playerDataProvider.PlayerData.PlayerNickname)
+                .SetGemsForAllTime(_playerDataProvider.PlayerData.BestMoney.Money[MoneyType.Gem]).SetBackground(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite)
                 .SetPlayerIcon(_playerDataProvider.PlayerIconsRepository.GetCurrent().Icon);
             playerInfoPopup.OnPlayerIconChangedClick += () => CallChangeIconPopup(playerInfoPopup);
         }
@@ -109,7 +109,7 @@ namespace CompositeRoots
         private void CallChangeIconPopup(PlayerInfoPopup playerInfoPopup)
         {
             var changePlayerIconPopup = _popupSystem.SpawnPopup<ChangePlayerIconPopup>();
-            changePlayerIconPopup.Initialize(_playerIconsConfig);
+            changePlayerIconPopup.Initialize(_playerDataProvider.BackgroundsRepository.GetCurrent().Sprite, _playerIconsConfig);
             changePlayerIconPopup.OnPlayerIconChanged += info => _playerDataProvider.PlayerIconsRepository.SetCurrent(info.Id);
             changePlayerIconPopup.OnPlayerIconChanged += info => playerInfoPopup.SetPlayerIcon(info.Icon);
         }

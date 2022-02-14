@@ -11,6 +11,7 @@ namespace Views.Popups
     {
         public event Action<PlayerIconInfo> OnPlayerIconChanged;
 
+        [SerializeField] private Image _background;
         [SerializeField] private Button _returnButton;
         [SerializeField] private Button _button;
         [SerializeField] private GameObject _scrollContent;
@@ -20,8 +21,9 @@ namespace Views.Popups
             _returnButton.onClick.AddListener(OnClosing);
         }
 
-        public void Initialize(PlayerIconsConfiguration playerIconsConfigurations)
+        public void Initialize(Sprite background, PlayerIconsConfiguration playerIconsConfigurations)
         {
+            _background.sprite = background;
             foreach (var playerIconInfo in playerIconsConfigurations.PlayerIconInfos)
             {
                 Button button = Instantiate(_button, _scrollContent.transform);

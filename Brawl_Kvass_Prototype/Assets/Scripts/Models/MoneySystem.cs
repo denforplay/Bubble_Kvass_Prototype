@@ -1,35 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
+using Core.Enums;
 
 namespace Models
 {
     public class MoneySystem
     {
-        public event Action<int> OnMoneyChanged;
-        public event Action<int> OnGemsChanged;
-        private int _coins;
-        private int _gems;
+        public event Action<MoneyType, int> OnValueChanged;
 
-        public int CurrentCoins => _coins;
-        public int CurrentGems => _gems;
+        private Dictionary<MoneyType, int> _money;
 
-        public void Restart()
+        public Dictionary<MoneyType, int> Money => _money;
+
+        public MoneySystem()
         {
-            _coins = 0;
-            _gems = 0;
-            OnMoneyChanged?.Invoke(_coins);
-            OnGemsChanged?.Invoke(_gems);
+            Restart();
         }
         
-        public void ChangeCoins(int value)
+        public void Restart()
         {
-            _coins += value;
-            OnMoneyChanged?.Invoke(_coins);
+            _money = new Dictionary<MoneyType, int>();
+            foreach (var value in Enum.GetValues(typeof(MoneyType)))
+            {
+                _money.Add((MoneyType)value, 0);
+                OnValueChanged?.Invoke((MoneyType)value, 0);
+            }
+            
         }
 
-        public void ChangeGems(int value)
+        public void ChangeMoney(MoneyType moneyType, int value)
         {
-            _gems += value;
-            OnGemsChanged?.Invoke(_gems);
+            _money[moneyType] += value;
+            OnValueChanged?.Invoke(moneyType, _money[moneyType]);
+        }
+        
+        public void SetMoney(MoneyType moneyType, int value)
+        {
+            _money[moneyType] = value;
+            OnValueChanged?.Invoke(moneyType, _money[moneyType]);
         }
     }
 }

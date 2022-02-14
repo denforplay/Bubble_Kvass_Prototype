@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management.Instrumentation;
 using Configurations;
 using Configurations.Info;
 using Core.Interfaces;
-using UnityEngine;
 
-namespace Data.Repositories
+namespace Data.Repositories.PlayerPrefsData
 {
     public class BackgroundsPlayerPrefsRepository : IRepository<BackgroundInfo>
     {
@@ -21,9 +19,9 @@ namespace Data.Repositories
             _backgroundConfiguration = backgroundConfiguration;
             _key = key;
             
-            if (PlayerPrefs.HasKey(_key))
+            if (UnityEngine.PlayerPrefs.HasKey(_key))
             {
-                int entityId = PlayerPrefs.GetInt(_key);
+                int entityId = UnityEngine.PlayerPrefs.GetInt(_key);
                 _currentBackground = _backgroundConfiguration.Backgrounds.Find(x => x.Id == entityId);
             }
             else
@@ -32,9 +30,9 @@ namespace Data.Repositories
 
         public void Add(BackgroundInfo entity)
         {
-            if (entity.Cost > 0 && !PlayerPrefs.HasKey(_key + entity.Id))
+            if (entity.Cost > 0 && !UnityEngine.PlayerPrefs.HasKey(_key + entity.Id))
             {
-                PlayerPrefs.SetInt(_key + entity.Id, entity.Id);
+                UnityEngine.PlayerPrefs.SetInt(_key + entity.Id, entity.Id);
             }
         }
 
@@ -48,19 +46,19 @@ namespace Data.Repositories
             if (FindById(id) != null)
                 _currentBackground = FindById(id);
             
-            
             OnCurrentEntityChanged?.Invoke(_currentBackground);
+            Save();
         }
 
         public BackgroundInfo FindById(int id)
         {
-            if (PlayerPrefs.HasKey(_key + id))
+            if (UnityEngine.PlayerPrefs.HasKey(_key + id))
             {
-                int entityId = PlayerPrefs.GetInt(_key + id);
+                int entityId = UnityEngine.PlayerPrefs.GetInt(_key + id);
                 return _backgroundConfiguration.Backgrounds.Find(x => x.Id == entityId);
             }
 
-            return _backgroundConfiguration.Backgrounds.Find(x => x.Id == id);
+            return _backgroundConfiguration.Backgrounds.Find(x => x.Id == id && x.Cost == 0);
         }
 
         public IEnumerable<BackgroundInfo> Get()
@@ -68,7 +66,7 @@ namespace Data.Repositories
             List<BackgroundInfo> backgrounds = new List<BackgroundInfo>();
             foreach (var entity in _backgroundConfiguration.Backgrounds)
             {
-                if (entity.Cost == 0 || PlayerPrefs.HasKey(_key + entity.Id))
+                if (entity.Cost == 0 || UnityEngine.PlayerPrefs.HasKey(_key + entity.Id))
                     backgrounds.Add(entity);
             }
 
@@ -77,8 +75,8 @@ namespace Data.Repositories
 
         public void Save()
         {
-            PlayerPrefs.SetInt(_key, _currentBackground.Id);
-            PlayerPrefs.Save();
+            UnityEngine.PlayerPrefs.SetInt(_key, _currentBackground.Id);
+            UnityEngine.PlayerPrefs.Save();
         }
     }
 }

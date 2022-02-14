@@ -7,11 +7,14 @@ namespace Views
     {
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.collider.TryGetComponent<PlatformView>(out _))
+            if (other.collider.TryGetComponent(out PlatformView _))
             {
-                var characterVelocity = Model.Velocity;
-                characterVelocity.y = 10f;
-                Model.ChangeVelocity(characterVelocity);
+                if (other.relativeVelocity.y > 0)
+                {
+                    var characterVelocity = Model.Velocity;
+                    characterVelocity.y = 10f;
+                    Model.ChangeVelocity(characterVelocity);  
+                }
             }
         }
     }

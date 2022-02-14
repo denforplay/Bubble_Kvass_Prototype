@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Abstracts;
+using Core.Enums;
 using Core.PopupSystem;
 using TMPro;
 using UnityEngine;
@@ -49,14 +50,21 @@ namespace Views.Popups.MiniGamesPopups
             _bestPointsText.text = $"Best: {points}";
         }
 
-        public void SetCoinsText(int money)
+        public void SetMoneyText(MoneyType moneyType, int value)
         {
-            _coinsText.text = money.ToString();
-        }
-
-        public void SetGemsText(int gems)
-        {
-            _gemsText.text = gems.ToString();
+            switch (moneyType)
+            {
+                case MoneyType.Coin:
+                {
+                    _coinsText.text = value.ToString();
+                    break;
+                }
+                case MoneyType.Gem:
+                {
+                    _gemsText.text = value.ToString();
+                    break;
+                }
+            }
         }
 
         public override void EnableInput()

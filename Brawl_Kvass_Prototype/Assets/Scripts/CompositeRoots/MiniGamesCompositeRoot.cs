@@ -67,8 +67,11 @@ namespace CompositeRoots
 
             _currentGame.OnMoneyReceived += system =>
             {
-                _playerDataProvider.PlayerData.ChangeMoney(system.CurrentCoins);
-                _playerDataProvider.PlayerData.ChangeGems(system.CurrentGems);
+                foreach (var pair in system.Money)
+                {
+                    _playerDataProvider.MoneyRepository.Add(pair.Key, pair.Value);
+                    _playerDataProvider.PlayerData.TrySetBestMoney(pair.Key, _playerDataProvider.PlayerData.BestMoney.Money[pair.Key] + pair.Value);
+                }
             };
             
             _currentGame.GetPopup().OnPauseClicked += () =>

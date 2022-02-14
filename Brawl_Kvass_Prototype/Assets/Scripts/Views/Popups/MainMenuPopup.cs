@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Enums;
 using Core.PopupSystem;
 using TMPro;
 using UnityEngine;
@@ -81,14 +82,21 @@ namespace Views.Popups
             _playerName.text = name;
         }
 
-        public void SetCoinsText(int coins)
+        public void SetMoneyText(MoneyType moneyType, int coins)
         {
-            _coinsText.text = coins.ToString();
-        }
-        
-        public void SetGemsText(int gems)
-        {
-            _gemsText.text = gems.ToString();
+            switch (moneyType)
+            {
+                case MoneyType.Coin:
+                {
+                    _coinsText.text = coins.ToString();
+                    break;
+                }
+                case MoneyType.Gem:
+                {
+                    _gemsText.text = coins.ToString();
+                    break;
+                }
+            }
         }
 
         public override void EnableInput()

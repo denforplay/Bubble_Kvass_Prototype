@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Configurations;
 using Core;
+using Core.Enums;
 using Core.Interfaces;
 using Core.PopupSystem;
 using Inputs;
@@ -60,8 +61,7 @@ namespace Models.MiniGames
             _scoreSystem.OnScoreChanged += _runGamePopup.SetPoints;
             _scoreSystem.OnBestScoreChanged += _runGamePopup.SetBestPoints;
             _scoreSystem.Restart();
-            _moneySystem.OnGemsChanged += _runGamePopup.SetGemsText;
-            _moneySystem.OnMoneyChanged += _runGamePopup.SetCoinsText;
+            _moneySystem.OnValueChanged += _runGamePopup.SetMoneyText;
             PlaceGameObjects();
         }
 
@@ -89,8 +89,10 @@ namespace Models.MiniGames
             ClearViewActions();
             var popup = _popupSystem.SpawnPopup<LosePopup>(1);
             popup.SetScoreText(_scoreSystem.CurrentScore);
-            popup.SetCoinsText(_moneySystem.CurrentCoins);
-            popup.SetGemsText(_moneySystem.CurrentGems);
+            foreach (var pair in _moneySystem.Money)
+            {
+                popup.SetMoneyText(pair.Key, pair.Value);
+            }
             OnMoneyReceived?.Invoke(_moneySystem);
             popup.OnRestart += Restart;
             popup.OnMainMenuButtonClicked += OnEnd;
@@ -103,6 +105,7 @@ namespace Models.MiniGames
         {
             ClearViewActions();
             _barrierSystem.StopAll();
+            OnMoneyReceived?.Invoke(_moneySystem);
             _scoreSystem.SaveBestScore();
             OnDisable();
             _popupSystem.DeletePopUp();
@@ -174,10 +177,10 @@ namespace Models.MiniGames
                 {
                     _scoreSystem.AddScores(1);
                     if (_scoreSystem.CurrentScore % _configuration.GemScoreNeeded == 0)
-                        _moneySystem.ChangeGems(1);
+                        _moneySystem.ChangeMoney(MoneyType.Gem, 1);
 
                     if (_scoreSystem.CurrentScore % _configuration.CoinScoreNeeded == 0)
-                        _moneySystem.ChangeCoins(1);
+                        _moneySystem.ChangeMoney(MoneyType.Coin, 1);
                 }
             }
 
