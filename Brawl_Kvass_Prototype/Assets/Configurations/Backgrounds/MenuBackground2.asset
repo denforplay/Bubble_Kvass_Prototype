@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 148cac09d1aa4c6c879dd46b7385a482, type: 3}
   m_Name: MenuBackground2
   m_EditorClassIdentifier: 
+  _id: 1
   _sprite: {fileID: 21300000, guid: 452b97aa732af4b40837eb449446d9b4, type: 3}
   _cost: 100
+  _moneyType: 0

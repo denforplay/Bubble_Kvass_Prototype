@@ -11,15 +11,14 @@ GameObject:
   - component: {fileID: 7486445164784372485}
   - component: {fileID: 7486445164784372506}
   - component: {fileID: 7486445164784372507}
-  - component: {fileID: 570862656537738300}
-  - component: {fileID: -6625941742576111063}
   - component: {fileID: 2025602270255277784}
+  - component: {fileID: 5903966638340429574}
   m_Layer: 7
   m_Name: platform0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7486445164784372485
 Transform:
@@ -108,31 +107,6 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &570862656537738300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7486445164784372484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54a9ae1bbe854b4f9b78dc2c8698ff54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-6625941742576111063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7486445164784372484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bd4927dd5134add8e1da07009423ea2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 0}
 --- !u!251 &2025602270255277784
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -152,3 +126,16 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &5903966638340429574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7486445164784372484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f6c9ae740f497d9bb693402bd5fbb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 0}

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8236b7d19f254ec6b3f0e93bbc91ffe0, type: 3}
   m_Name: Gale(Mythic)
   m_EditorClassIdentifier: 
+  _id: 1
   _fighterSprite: {fileID: 21300000, guid: ca78e38cbf65df441ae17573e5a90e69, type: 3}
   _fighterName: Gale
   _rarity: 3
+  _fighterDescription: Mythic character with name Gale
+  _isUnlocked: 1

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: InputsConfiguration
   m_EditorClassIdentifier: 
   _accelerometerSensitivity: 5
+  _jumpHeight: 8

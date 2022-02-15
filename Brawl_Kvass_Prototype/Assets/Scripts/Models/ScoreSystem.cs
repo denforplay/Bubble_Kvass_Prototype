@@ -12,6 +12,8 @@ namespace Models
         private int _maxScore;
         private int _currentScore;
 
+        public int CurrentScore => _currentScore;
+
         public ScoreSystem(string gameName)
         {
             _gameName = gameName;

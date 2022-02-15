@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Views
 {
-    public class Transformable2DView : MonoBehaviour, IPoolable
+    public abstract class Transformable2DView : MonoBehaviour, IPoolable
     {
         public event Action OnBecomeInvisible;
          

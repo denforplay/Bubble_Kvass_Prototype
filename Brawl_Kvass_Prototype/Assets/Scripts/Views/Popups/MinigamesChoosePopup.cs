@@ -10,7 +10,7 @@ namespace Views.Popups
 {
     public class MinigamesChoosePopup : Popup
     {
-        public event Action<MinigameInfo> OnMiniGameClicked;
+        public event Action<MiniGameInfo> OnMiniGameClicked;
         
         [SerializeField] private MinigameButton _minigameButtonPrefab;
         [SerializeField] private MiniGamesConfiguration _gamesConfiguration;
@@ -36,9 +36,9 @@ namespace Views.Popups
             }
         }
 
-        private void ChooseMiniGame(MinigameInfo minigameInfo)
+        private void ChooseMiniGame(MiniGameInfo miniGameInfo)
         {
-            OnMiniGameClicked?.Invoke(minigameInfo);
+            OnMiniGameClicked?.Invoke(miniGameInfo);
             OnClosing();
         }
 
